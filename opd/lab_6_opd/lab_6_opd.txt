@@ -1,0 +1,90 @@
+ORG 0x0
+V0:      WORD $DEFAULT, 0x180;
+V1:      WORD $INT1, 	0x180;
+V2:      WORD $DEFAULT, 0x180;
+V3:      WORD $INT3, 	0x180;
+V4:      WORD $DEFAULT, 0x180;
+V5:      WORD $DEFAULT, 0x180;
+V6:      WORD $DEFAULT, 0x180;
+V7:      WORD $DEFAULT, 0x180;
+DEFAULT:      IRET
+INT1: 
+	LD X
+	NOP	; (1) Change HLT
+	PUSH
+	CALL FX
+	CALL CHECK ; Change NOP
+	POP
+	NOP	; (2) Change HLT
+	OUT 2
+	IRET
+INT3:  	
+	NOP 	; (3) Change HLT
+	IN 6
+	SXTB
+	ST S
+	ASL
+	ADD S
+	ADD X
+	PUSH
+	CALL CHECK ; Change NOP
+	POP
+	LD X	
+	NOP   ; (4) Change HLT
+	IRET
+CHECK:
+	LD &1
+	NOP ; (5) Change HLT
+	CMP MINV
+	BLT REPLACEMAX
+	SUB #1
+	CMP MAXV
+	BGE REPLACEMAX
+	ADD #1
+	NOP ; (6) Change HLT
+	RET
+FX:
+	LD &1
+	ASL
+	ADD &1
+	ASL
+	ADD #3
+	NEG
+	ST &1
+	RET
+REPLACEMAX:
+	LD MAXV
+	ST &1
+	RET
+		ORG 0x46
+X: WORD	0x007F
+S: WORD ?
+MAXV: WORD 0x007F
+MINV: WORD 0xFF80
+ORG 0x50
+START:  	
+	DI
+	CLA
+	OUT 1 ; Block interrupt signal
+	OUT 5
+	OUT 0xB
+	OUT 0xD
+	OUT 0x11
+	OUT 0x15
+	OUT 0x19
+	OUT 0x1D
+	LD #9	; 0b1001
+	OUT 3
+	LD #0xB	; 0b1011
+	OUT 7
+	EI
+PROG:
+	DI   	
+	LD X
+	SUB #2
+	PUSH
+	CALL CHECK ; Change NOP
+	POP
+	ST X
+	EI
+	BR PROG

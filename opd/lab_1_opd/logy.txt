@@ -1,0 +1,3313 @@
+icrosoft Windows [Version 10.0.19043.1266]
+(c) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
+
+C:\Users\sasao>ssh helios
+Password:
+Last login: Tue Sep 28 13:05:40 2021 from 81.9.127.215
+Oracle Corporation      SunOS 5.10      Generic Patch   January 2005
+s336768@helios:/home/s336768$ man permission
+No manual entry for permission.
+s336768@helios:/home/s336768$ man chmod
+Reformatting page.  Please Wait... done
+
+User Commands                                            chmod(1)
+
+NAME
+     chmod - change the permissions mode of a file
+
+SYNOPSIS
+     chmod [-fR] absolute-mode file...
+
+     chmod [-fR] symbolic-mode-list file...
+
+     chmod [-fR] acl_operation file...
+
+DESCRIPTION
+     The chmod utility changes or assigns the mode of a file.
+
+     chmod can also be used to modify Access Control Lists (ACLs)
+     on files and directories.
+
+  Absolute Mode
+     An absolute mode specification has the following format:
+
+     chmod [options] absolute-mode file . . .
+
+     where absolute-mode is specified using  octal  numbers  nnnn
+     defined as follows:
+
+     n    a number from 0 to 7. An absolute mode  is  constructed
+          from the OR of any of the following modes:
+
+          4000        Set user ID on execution.
+
+          20#0        Set group ID on execution if # is 7, 5,  3,
+                      or 1.
+
+                      Enable mandatory locking if # is 6,  4,  2,
+                      or 0.
+
+                      For directories, files are created with BSD
+                      semantics  for propagation of the group ID.
+                      With this option, files and  subdirectories
+                      created  in the directory inherit the group
+                      ID of the directory,  rather  than  of  the
+                      current  process. For directories, the set-
+                      gid bit can only be set or cleared by using
+                      symbolic mode.
+
+SunOS 5.10           Last change: 9 Feb 2009                    1
+
+User Commands                                            chmod(1)
+
+          1000        Turn on sticky bit. See chmod(2).
+
+          0400        Allow read by owner.
+
+          0200        Allow write by owner.
+
+          0100        Allow  execute  (search  in  directory)  by
+                      owner.
+
+          0700        Allow read, write, and execute (search)  by
+                      owner.
+
+          0040        Allow read by group.
+
+          0020        Allow write by group.
+
+          0010        Allow  execute  (search  in  directory)  by
+                      group.
+
+          0070        Allow read, write, and execute (search)  by
+                      group.
+
+          0004        Allow read by others.
+
+          0002        Allow write by others.
+
+          0001        Allow execute (search in directory) by oth-
+                      ers.
+
+          0007        Allow read, write, and execute (search)  by
+                      others.
+
+     For directories, the setgid bit cannot be set  (or  cleared)
+     in  absolute  mode;  it must be set (or cleared) in symbolic
+     mode using g+s (or g-s).
+
+SunOS 5.10           Last change: 9 Feb 2009                    2
+
+User Commands                                            chmod(1)
+
+  Symbolic Mode
+     A symbolic mode specification has the following format:
+
+     chmod [options] symbolic-mode-list file . . .
+
+     where symbolic-mode-list is a comma-separated list (with  no
+     intervening  whitespace) of symbolic mode expressions of the
+     form:
+
+     [who] operator [permissions]
+
+     Operations are performed in the order given.  Multiple  per-
+     missions  letters  following  a  single  operator  cause the
+     corresponding operations to be performed simultaneously.
+
+     who           zero or more of the characters u, g, o, and  a
+                   specifying whose permissions are to be changed
+                   or assigned:
+
+                   u    user's permissions
+
+                   g    group's permissions
+
+                   o    others' permissions
+
+                   a    all permissions (user, group, and other)
+
+                   If who is omitted, it defaults to a,  but  the
+                   setting  of  the  file mode creation mask (see
+                   umask in sh(1) or csh(1) for more information)
+                   is  taken  into  account. When who is omitted,
+                   chmod does not override  the  restrictions  of
+                   your user mask.
+
+     operator      either +, -, or =, signifying how  permissions
+                   are to be changed:
+
+                   +       Add permissions.
+
+                           If permissions are omitted, nothing is
+                           added.
+
+                           If who is omitted, add the  file  mode
+                           bits   represented   by   permissions,
+
+SunOS 5.10           Last change: 9 Feb 2009                    3
+
+User Commands                                            chmod(1)
+
+                           except for the those with  correspond-
+                           ing  bits  in  the  file mode creation
+                           mask.
+
+                           If who is present, add the  file  mode
+                           bits represented by the permissions.
+
+                   -       Take away permissions.
+
+                           If permissions are omitted,  do  noth-
+                           ing.
+
+                           If who is omitted, clear the file mode
+                           bits   represented   by   permissions,
+                           except for  those  with  corresponding
+                           bits in the file mode creation mask.
+
+                           If who is present, clear the file mode
+                           bits represented by permissions.
+
+                   =       Assign permissions absolutely.
+
+                           If who is omitted, clear all file mode
+                           bits;  if  who  is  present, clear the
+                           file mode bits represented by who.
+
+                           If permissions are omitted, do nothing
+                           else.
+
+                           If who is omitted, add the  file  mode
+                           bits   represented   by   permissions,
+                           except for the those with  correspond-
+                           ing  bits  in  the  file mode creation
+                           mask.
+
+                           If who is present, add the  file  mode
+                           bits represented by permissions.
+
+                   Unlike other symbolic  operations,  =  has  an
+                   absolute  effect  in  that it resets all other
+                   bits represented by who. Omitting  permissions
+                   is useful only with = to take away all permis-
+                   sions.
+
+     permission    any compatible combination  of  the  following
+                   letters:
+
+                   l        mandatory locking
+
+SunOS 5.10           Last change: 9 Feb 2009                    4
+
+User Commands                                            chmod(1)
+
+                   r        read permission
+
+                   s        user or group set-ID
+
+                   t        sticky bit
+
+                   w        write permission
+
+                   x        execute permission
+
+                   X        execute permission if the file  is  a
+                            directory or if there is execute per-
+                            mission for one  of  the  other  user
+                            classes
+
+                   u,g,o    indicate that  permission  is  to  be
+                            taken from the current user, group or
+                            other mode respectively.
+
+                   Permissions to a file can  vary  depending  on
+                   your user identification number (UID) or group
+                   identification number (GID).  Permissions  are
+                   described in three sequences each having three
+                   characters:
+
+                   User                 Group                 Other
+                   rwx                  rwx                   rwx
+
+                   This example (user, group, and others all have
+                   permission to read, write, and execute a given
+                   file) demonstrates two categories for granting
+                   permissions:  the access class and the permis-
+                   sions themselves.
+
+                   The letter s is only meaningful with u  or  g,
+                   and t only works with u.
+
+                   Mandatory file and record locking  (l)  refers
+                   to  a  file's  ability  to have its reading or
+                   writing permissions locked while a program  is
+                   accessing that file.
+
+                   In a directory which has the set-group-ID  bit
+                   set  (reflected as either -----s--- or -----l-
+
+SunOS 5.10           Last change: 9 Feb 2009                    5
+
+User Commands                                            chmod(1)
+
+                   -- in the output of 'ls -ld'), files and  sub-
+                   directories  are  created with the group-ID of
+                   the parent directory-not that of current  pro-
+                   cess.
+
+                   It is not possible to permit  group  execution
+                   and enable a file to be locked on execution at
+                   the same time. In addition, it is not possible
+                   to  turn  on the set-group-ID bit and enable a
+                   file to be locked on  execution  at  the  same
+                   time.  The  following examples, therefore, are
+                   invalid and elicit error messages:
+
+                     chmod g+x,+l file
+                     chmod g+s,+l file
+
+                   Only the owner of a file or directory (or  the
+                   super-user)   can   change   that   file's  or
+                   directory's mode. Only the super-user can  set
+                   the sticky bit on a non-directory file. If you
+                   are not super-user, chmod masks the sticky-bit
+                   but does not return an error. In order to turn
+                   on a file's set-group-ID bit, your  own  group
+                   ID  must  correspond  to  the file's and group
+                   execution must be set.
+
+  ACL Operation
+     An ACL Operation specification has the following format:
+
+       chmod [options] A[number]- file ...
+       chmod [options] A-acl_specification file ...
+       chmod [options] A[index]{+|=}acl_specification file ...
+
+     Where acl_specification is a comma-separated list  (with  no
+     intervening whitespace) of an ACL specification of the form:
+
+     A[index]+acl_specification    Prepends  the  access  control
+                                   entries   (ACE)  specified  in
+                                   acl_specification    to    the
+                                   beginning  of  the file's ACL.
+                                   Depending on the file  system,
+                                   the  ACL can be reordered when
+                                   applied  to   the   file.   If
+                                   "optional" number is specified
+                                   then  new  ACEs  are  inserted
+                                   before specified number.
+
+SunOS 5.10           Last change: 9 Feb 2009                    6
+
+User Commands                                            chmod(1)
+
+     A-                            Removes all ACEs  for  current
+                                   ACL   on   file  and  replaces
+                                   current ACL with new ACL  that
+                                   represents  only  the  current
+                                   mode of the file.
+
+     Aindex-                       Removes ACE specified by index
+                                   number.
+
+     A-acl_specification           Removes  ACEs   specified   by
+                                   acl_specification,   if   they
+                                   exist in current file's ACL.
+
+     A=acl_specification           Replaces a  files  entire  ACL
+                                   with acl_specification.
+
+     A[index]=acl_specification    Replaces ACEs  starting  at  a
+                                   specific  index  number in the
+                                   current ACL on  the  file.  If
+                                   multiple  ACEs  are specified,
+                                   then each  subsequent  ACE  in
+                                   acl_specification replaces the
+                                   corresponding   ACE   in   the
+                                   current ACL.
+
+     POSIX-draft ACL Specification (as supported by UFS)
+
+     POSIX-draft ACLs (as supported  by  UFS)  are  specified  as
+     colon (:) separated fields of the following.
+
+     user::perms
+
+         File owner permissions.
+
+     user:username:perms
+
+         Permissions for a specific user.
+
+     group::perms
+
+         File group owner permissions.
+
+SunOS 5.10           Last change: 9 Feb 2009                    7
+
+User Commands                                            chmod(1)
+
+     group:groupname:perms
+
+         Permissions for a specific group.
+
+     other::perms
+
+         Permissions for  user  other  than  the  file  owner  or
+         members of file group owner.
+
+     mask:perms
+
+         The ACL mask. The mask entry specifies the maximum  per-
+         missions  allowed  for  user (other than that the owner)
+         and for groups.
+
+     default:user::perms
+
+         Default file owner permissions.
+
+     default:user:username:perms
+
+         Default permissions for a specific user.
+
+     default:group::perms
+
+         Default file group owner permissions.
+
+     default:group:groupname:perms
+
+         Default permissions for a specific group.
+
+     default:other:perms
+
+         Default permissions for user other than the  file  owner
+         or members of the file group owner.
+
+     default:mask:perms
+
+         Default ACL mask.
+
+     The above specification allows for ACLs to be specified such
+     as:
+
+SunOS 5.10           Last change: 9 Feb 2009                    8
+
+User Commands                                            chmod(1)
+
+       user:tom:rw-,mask:rwx,group:staff:r-x
+
+     NFSv4 ACL Specification (as supported by NFSv4 and ZFS)
+
+     NFSv4 ACLs provide richer ACL semantics. They  provide  both
+     allow  and  deny  entries,  finer  grained  permissions, and
+     enhanced inheritance control.
+
+     NFSv4 ACLs are specified as colon (:)  separated  fields  of
+     the following.
+
+     owner@:<perms>[:inheritance flags]:<allow|deny>
+
+         Permissions for file owner.
+
+     group@:<perms>[:inheritance flags]:<allow|deny>
+
+         Permissions for file group owner.
+
+     everyone@:<perms>[:inheritance flags]:<allow|deny>
+
+         Permissions for everyone, including file owner and group
+         owner.
+
+     user:<username>:<perms>[:inheritance flags]:<allow|deny>
+
+         Permissions for a specific user.
+
+     group:<groupname>:<perms>[:inheritance flags]:<allow|deny>
+
+         Permissions for a specific group.
+
+     groupsid:<sid string>:<perms>[:inheritance
+     flags]:<allow|deny>
+
+         Permissions for a specific group, but group is specified
+         by SID.
+
+     sid:<sid string>:<perms>[:inheritance flags]:<allow|deny>
+
+         Permissions for a specific SID, but it doesn't matter if
+
+SunOS 5.10           Last change: 9 Feb 2009                    9
+
+User Commands                                            chmod(1)
+
+         it is a user or a group.
+
+     Permissions can be specified in three  different  chmod  ACL
+     formats:   verbose, compact, or positional. The verbose for-
+     mat  uses  words  to   indicate  that  the  permissions  are
+     separated  with a forward slash (/)  character. Compact for-
+     mat uses the permission letters and positional  format  uses
+     the  permission  letters  or  the  hyphen (-) to identify no
+     permissions.
+
+     The permissions for verbose mode and their abbreviated  form
+     in    parentheses   for  compact  and  positional  mode  are
+     described as follows:
+
+     read_data (r)           Permission to read  the  data  of  a
+                             file.
+
+     list_directory (r)      Permission to list the contents of a
+                             directory.
+
+     write_data (w)          Permission to modify a file's  data.
+                             anywhere in the file's offset range.
+
+     add_file (w)            Permission to add a new  file  to  a
+                             directory.
+
+     append_data (p)         The ability to modify a file's data,
+                             but only starting at EOF.
+
+                             Currently, this  permission  is  not
+                             supported.
+
+     add_subdirectory (p)    Permission to create a  subdirectory
+                             to a directory.
+
+     read_xattr (R)          Ability to read the extended  attri-
+                             butes of a file.
+
+     write_xattr (A)         Ability to  create  extended  attri-
+                             butes   or  write  to  the  extended
+                             attribute directory.
+
+SunOS 5.10           Last change: 9 Feb 2009                   10
+
+User Commands                                            chmod(1)
+
+     execute (x)             Permission to execute a file.
+
+     read_attributes (a)     The ability to read basic attributes
+                             (non-ACLs) of a file.
+
+     write_attributes (W)    Permission to change the times asso-
+                             ciated  with  a file or directory to
+                             an arbitrary value.
+
+     delete (d)              Permission to delete a file.
+
+     delete_child (D)        Permission to delete a file within a
+                             directory.
+
+     read_acl (c)            Permission to  read  the  ACL  of  a
+                             file.
+
+     write_acl (C)           Permission to write  the  ACL  of  a
+                             file.
+
+     write_owner (o)         Permission to change the owner of  a
+                             file.
+
+     synchronize (s)         Permission to access file locally at
+                             server  with  synchronize  reads and
+                             writes.
+
+                             Currently, this  permission  is  not
+                             supported.
+
+     Using the compact ACL format, permissions are  specified  by
+     using 14 unique letters to indicate permissions.
+
+     Using the positional ACL format, permissions  are  specified
+     as  positional  arguments  similar  to the ls -V format. The
+     hyphen (-), which indicates that no permission is granted at
+     that  position, can be omitted and only the required letters
+     have to be specified.
+
+SunOS 5.10           Last change: 9 Feb 2009                   11
+
+User Commands                                            chmod(1)
+
+     The letters above are listed in  the  order  they  would  be
+     specified in positional notation.
+
+     Permissions can be specified with these letters in the  fol-
+     lowing way:
+
+       rwx--D--------
+
+     The hyphens can be removed to compact the string as follows:
+
+       rwxD
+
+     The optional inheritance flags can be specified in the three
+     formats. The first format uses words to indicate the various
+     inheritance flags separated with a forward slash (/) charac-
+     ter.
+
+     file_inherit (f)    Inherit to all newly created files.
+
+     dir_inherit (d)     Inherit  to  all  newly  created  direc-
+                         tories.
+
+     inherit_only (i)    When placed on a directory, do not apply
+                         to  the directory, only to newly created
+                         files   and   directories.   This   flag
+                         requires that either file_inherit and or
+                         dir_inherit is also specified.
+
+     no_propagate (n)    Indicates that  ACL  entries  should  be
+                         inherited to objects in a directory, but
+                         inheritance should stop after descending
+                         one  level.  This flag is dependent upon
+                         either file_inherit and  or  dir_inherit
+                         also being specified.
+
+     The inheritance flags listed can also be  specified  in  the
+     compact  format or as positional arguments similar to the ls
+     -V format.  A hyphen character indicates  that  the  inheri-
+     tance  flag  at  that  postion is not specified in the posi-
+     tional ACL format.
+
+SunOS 5.10           Last change: 9 Feb 2009                   12
+
+User Commands                                            chmod(1)
+
+     The inheritance flags can be specified with these letters in
+     any of the following equivalent ways.
+
+       file_inherit/dir_inherit/no_propagate
+
+       fd-n--
+
+       fdn
+
+     With this inheritance model, an ACL entry can  be  specified
+     such as:
+
+       user:tom:read_data/write_data/read_attributes:file_inherit:allow
+       user:fred:read_data:file_inherit/dir_inherit:deny
+       user:bob:read_data:allow
+
+OPTIONS
+     The following options are supported:
+
+     -f    Force. chmod does not complain if it fails  to  change
+           the mode of a file.
+
+     -R    Recursively descends through directory arguments, set-
+           ting  the  mode for each file as described above. When
+           symbolic links are encountered, the mode of the target
+           file is changed, but no recursion takes place.
+
+OPERANDS
+     The following operands are supported:
+
+     absolute-mode         Represents the change to  be  made  to
+     symbolic-mode-list    the  file mode bits of each file named
+                           by one of the file operands. See Abso-
+                           lute  Mode  and Symbolic Mode above in
+                           the  section for more information.
+
+     acl_operation         Represents the modification to be per-
+                           formed  on  the  file's  ACL.  See ACL
+                           Operation in the  DESCRIPTION  section
+                           for more information.
+
+SunOS 5.10           Last change: 9 Feb 2009                   13
+
+User Commands                                            chmod(1)
+
+                           acl_operation is one of the following:
+
+                             A[number] -
+                             A-acl_specification
+                             A[index]{+|=}acl_specification
+
+     file                  A path name of a file whose file  mode
+                           bits are to be modified.
+
+USAGE
+     See largefile(5) for the  description  of  the  behavior  of
+     chmod  when  encountering  files  greater than or equal to 2
+     Gbyte ( 2^31 bytes).
+
+EXAMPLES
+     Example 1 Denying execute Permission
+
+     The following example denies execute permission to everyone:
+
+       example% chmod a-x file
+
+     Example 2 Allowing read-only Permission
+
+     The following example allows only read permission to  every-
+     one:
+
+       example% chmod 444 file
+
+     Example 3 Making a File readable and writable
+
+     The following example makes a file readable and writable  by
+     the group and others:
+
+       example% chmod go+rw file
+       example% chmod 066 file
+
+SunOS 5.10           Last change: 9 Feb 2009                   14
+
+User Commands                                            chmod(1)
+
+     Example 4 Locking a File From Access
+
+     The following example locks a file from access:
+
+       example% chmod +l file
+
+     Example 5 Granting read, write, execute,  and  set  group-ID
+     Permission on a File
+
+     The following example grants everyone read, write, and  exe-
+     cute permissions on the file, and turns on the set group-ID:
+
+       example% chmod a=rwx,g+s file
+       example% chmod 2777 file
+
+     Example 6 Prepending a New ACL Entry on a ZFS File
+
+     The following example prepends a new  ACL  entry  on  a  ZFS
+     file.
+
+     First, display the current ACL:
+
+       example% ls -v file.3
+       -rw-r--r--   1 marks    staff          0 Oct  9 15:49 file.3
+             0:owner@:execute:deny
+             1:owner@:read_data/write_data/append_data/write_xattr/
+                write_attributes/write_acl/write_owner:allow
+             2:group@:write_data/append_data/execute:deny
+             3:group@:read_data:allow
+             4:everyone@:write_data/append_data/write_xattr/execute/
+               write_attributes/write_acl/write_owner:deny
+             5:everyone@:read_data/read_xattr/read_attributes/read_acl/
+                synchronize:allow
+
+     Issue the following command:
+
+SunOS 5.10           Last change: 9 Feb 2009                   15
+
+User Commands                                            chmod(1)
+
+       example% chmod A+user:lp:read_data:deny file.3
+
+     Display the new ACL:
+
+       example% ls -v file.3
+       -rw-r--r--+  1 marks    staff          0 Oct  9 15:49 file.3
+             0:user:lp:read_data:deny
+             1:owner@:execute:deny
+             2:owner@:read_data/write_data/append_data/write_xattr/
+                 write_attributes/write_acl/write_owner:allow
+             3:group@:write_data/append_data/execute:deny
+             4:group@:read_data:allow
+             5:everyone@:write_data/append_data/write_xattr/execute/
+                 write_attributes/write_acl/write_owner:deny
+             6:everyone@:read_data/read_xattr/read_attributes/read_acl/
+                 synchronize:allow
+
+     Example 7 Prepending a New POSIX-draft ACL Entry  on  a  UFS
+     File
+
+     The following example prepends a new POSIX-draft  ACL  entry
+     on a UFS file.
+
+     First, display the current ACL:
+
+       example% ls -v file.2
+       -rw-r--r--   1 marks    staff          0 Oct  9 15:52 file.2
+             0:user::rw-
+             1:group::r--           #effective:r--
+             2:mask:r--
+             3:other:r--
+
+     Issue the following command:
+
+       example% chmod A+user:lp:-wx file.2
+
+SunOS 5.10           Last change: 9 Feb 2009                   16
+
+User Commands                                            chmod(1)
+
+     Display the new ACL:
+
+       example% ls -v file.2
+       -rw-r--r--+  1 marks    staff          0 Oct  9 15:52 file.2
+             0:user::rw-
+             1:user:lp:-wx          #effective:---
+             2:group::r--           #effective:r--
+             3:mask:r--
+             4:other:r--
+
+     Example 8 Inserting an ACL Entry in a Specific Position on a
+     ZFS file
+
+     The following example inserts an ACL  entry  in  a  specific
+     position  on a ZFS file system. It also illustrates the com-
+     pact ACL format.
+
+     First, display the ACL to pick a location to  insert  a  new
+     ACE.
+
+       example% ls -V file.1
+       -rw-r--r--+  1 root     root           0 Oct  6 12:16 file.1
+            user:lp:rw------------:------:allow
+             owner@:--x-----------:------:deny
+             owner@:rw-p---A-W-Co-:------:allow
+             group@:-wxp----------:------:deny
+             group@:r-------------:------:allow
+          everyone@:-wxp---A-W-Co-:------:deny
+          everyone@:r-----a-R-c--s:------:allow
+
+     Next, insert a new entry in location 3.   This  causes   the
+     entries   that  are currently in position 3 - 6 to be pushed
+     down.
+
+     Issue the following command:
+
+       example% chmod A3+user:marks:r:deny file.1
+
+SunOS 5.10           Last change: 9 Feb 2009                   17
+
+User Commands                                            chmod(1)
+
+     Display the new ACL:
+
+       example% ls -V file.1
+       -rw-r--r--+  1 root     staff          0 Feb  3 14:13 file.1
+            user:lp:rw------------:------:allow
+             owner@:--x-----------:------:deny
+             owner@:rw-p---A-W-Co-:------:allow
+s336768@helios:/home/s336768$ cd lab0
+s336768@helios:/home/s336768/lab0$ ls
+1            camerupt     Copy21       Copyk32      emboar3      krookodile6  mounth       sa           strepi      test         trop.txt     tyrogue8_52
+buizel       cherubi3     Copy31       cranidos     gloom        lillipup7    s            skiploom     swop         testr56      tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ ls -Rl
+.:
+total 48
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwxr--r--   2 s336768  studs          7 сент. 17 15:00 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 сент. 15 14:54 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+
+./cherubi3:
+total 9
+-rwxr--rw-   1 s336768  studs         48 сент. 24 10:45 houndour
+-rwxr--rw-   1 s336768  studs          0 сент. 13 10:11 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+
+./gloom:
+total 0
+
+./lillipup7:
+total 11
+-r--r---w-   1 s336768  studs         55 сент. 13 10:41 chingling
+-r--r-----   1 s336768  studs         20 сент. 13 10:39 gabite
+lrwxrwxrwx   1 s336768  studs         11 сент. 15 14:54 gabitekrookodile -> krookodile6
+drwxr-x-wx   3 s336768  studs          3 сент. 15 16:59 klinklang
+dr-xr-xrwx   2 s336768  studs          2 сент. 13 10:13 petilil
+
+./lillipup7/klinklang:
+total 3
+drwxr--r--   2 s336768  studs          7 сент. 15 17:02 cherubi3
+
+./lillipup7/klinklang/cherubi3:
+total 9
+-rwxr--r--   1 s336768  studs         48 сент. 15 20:58 houndour
+-rwxr--r--   1 s336768  studs          0 сент. 15 20:58 machamp
+-rw-------   1 s336768  studs        138 сент. 15 20:58 pupitar
+-r--r--r--   1 s336768  studs        162 сент. 15 16:59 shuppet
+-rwxr--r--   1 s336768  studs        166 сент. 15 20:58 simisage
+
+./lillipup7/petilil:
+total 0
+
+./skiploom:
+total 0
+
+./strepi:
+total 0
+s336768@helios:/home/s336768/lab0$ ls -Rlr
+.:
+total 48
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwx--xrwx   4 s336768  studs          7 сент. 15 14:54 lillipup7
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+drwxr--r--   2 s336768  studs          7 сент. 17 15:00 cherubi3
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+
+./strepi:
+total 0
+
+./skiploom:
+total 0
+
+./lillipup7:
+total 11
+dr-xr-xrwx   2 s336768  studs          2 сент. 13 10:13 petilil
+drwxr-x-wx   3 s336768  studs          3 сент. 15 16:59 klinklang
+lrwxrwxrwx   1 s336768  studs         11 сент. 15 14:54 gabitekrookodile -> krookodile6
+-r--r-----   1 s336768  studs         20 сент. 13 10:39 gabite
+-r--r---w-   1 s336768  studs         55 сент. 13 10:41 chingling
+
+./lillipup7/petilil:
+total 0
+
+./lillipup7/klinklang:
+total 3
+drwxr--r--   2 s336768  studs          7 сент. 15 17:02 cherubi3
+
+./lillipup7/klinklang/cherubi3:
+total 9
+-rwxr--r--   1 s336768  studs        166 сент. 15 20:58 simisage
+-r--r--r--   1 s336768  studs        162 сент. 15 16:59 shuppet
+-rw-------   1 s336768  studs        138 сент. 15 20:58 pupitar
+-rwxr--r--   1 s336768  studs          0 сент. 15 20:58 machamp
+-rwxr--r--   1 s336768  studs         48 сент. 15 20:58 houndour
+
+./gloom:
+total 0
+
+./cherubi3:
+total 9
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxr--rw-   1 s336768  studs          0 сент. 13 10:11 machamp
+-rwxr--rw-   1 s336768  studs         48 сент. 24 10:45 houndour
+s336768@helios:/home/s336768/lab0$ ls -Rlk
+ls: illegal option -- k
+usage: ls -1RaAdCxmnlhogrtuvVcpFbqisfHLeE@ [files]
+s336768@helios:/home/s336768/lab0$ ls -Rlp
+.:
+total 48
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwxr--r--   2 s336768  studs          7 сент. 17 15:00 cherubi3/
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom/
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 сент. 15 14:54 lillipup7/
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom/
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi/
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+
+./cherubi3:
+total 9
+-rwxr--rw-   1 s336768  studs         48 сент. 24 10:45 houndour
+-rwxr--rw-   1 s336768  studs          0 сент. 13 10:11 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+
+./gloom:
+total 0
+
+./lillipup7:
+total 11
+-r--r---w-   1 s336768  studs         55 сент. 13 10:41 chingling
+-r--r-----   1 s336768  studs         20 сент. 13 10:39 gabite
+lrwxrwxrwx   1 s336768  studs         11 сент. 15 14:54 gabitekrookodile -> krookodile6
+drwxr-x-wx   3 s336768  studs          3 сент. 15 16:59 klinklang/
+dr-xr-xrwx   2 s336768  studs          2 сент. 13 10:13 petilil/
+
+./lillipup7/klinklang:
+total 3
+drwxr--r--   2 s336768  studs          7 сент. 15 17:02 cherubi3/
+
+./lillipup7/klinklang/cherubi3:
+total 9
+-rwxr--r--   1 s336768  studs         48 сент. 15 20:58 houndour
+-rwxr--r--   1 s336768  studs          0 сент. 15 20:58 machamp
+-rw-------   1 s336768  studs        138 сент. 15 20:58 pupitar
+-r--r--r--   1 s336768  studs        162 сент. 15 16:59 shuppet
+-rwxr--r--   1 s336768  studs        166 сент. 15 20:58 simisage
+
+./lillipup7/petilil:
+total 0
+
+./skiploom:
+total 0
+
+./strepi:
+total 0
+s336768@helios:/home/s336768/lab0$ chmod u=0 cherubi3
+chmod: ERROR: invalid mode
+s336768@helios:/home/s336768/lab0$ chmod u= cherubi3
+s336768@helios:/home/s336768/lab0$ ls -l
+total 48
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d---r--r--   2 s336768  studs          7 сент. 17 15:00 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 сент. 15 14:54 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+ksh: cherubi3: permission denied
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+cherubi3: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=r cherubi3
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+ksh: cherubi3: permission denied
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+houndour  machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+cherubi3/shuppet: Permission denied
+cherubi3/simisage: Permission denied
+cherubi3/machamp: Permission denied
+cherubi3/houndour: Permission denied
+cherubi3/pupitar: Permission denied
+total 0
+s336768@helios:/home/s336768/lab0$ ls -R cherubi3
+cherubi3:
+cherubi3/shuppet: Permission denied
+cherubi3/simisage: Permission denied
+cherubi3/machamp: Permission denied
+cherubi3/houndour: Permission denied
+cherubi3/pupitar: Permission denied
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+houndour  machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+ksh: cherubi3: permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=w cherubi3
+s336768@helios:/home/s336768/lab0$ ls -l
+total 48
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d-w-r--r--   2 s336768  studs          7 сент. 17 15:00 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 сент. 15 14:54 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+cherubi3: Permission denied
+s336768@helios:/home/s336768/lab0$ ls -R cherubi3
+cherubi3:
+cherubi3: Permission denied
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+ksh: cherubi3: permission denied
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+ksh: cherubi3: permission denied
+s336768@helios:/home/s336768/lab0$
+s336768@helios:/home/s336768/lab0$ echo "jghkjhj" > cherubi3/test
+ksh: cherubi3/test: cannot create
+s336768@helios:/home/s336768/lab0$
+s336768@helios:/home/s336768/lab0$
+s336768@helios:/home/s336768/lab0$
+s336768@helios:/home/s336768/lab0$ echo 'fhjgfjy' > ../lab0/cherubi3/test
+ksh: ../lab0/cherubi3/test: cannot create
+s336768@helios:/home/s336768/lab0$ rm cherubi3/houndour
+cherubi3/houndour: Permission denied
+s336768@helios:/home/s336768/lab0$ touch cherubi3/test
+touch: cannot stat cherubi3/test: Permission denied
+s336768@helios:/home/s336768/lab0$ ls -l
+total 48
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d-w-r--r--   2 s336768  studs          7 сент. 17 15:00 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 сент. 15 14:54 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ cat cherubi3/houdour
+cat: cannot open cherubi3/houdour
+s336768@helios:/home/s336768/lab0$ ls -lR
+.:
+total 48
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d-w-r--r--   2 s336768  studs          7 сент. 17 15:00 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 сент. 15 14:54 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+
+./cherubi3:
+./cherubi3: Permission denied
+total 48
+
+./gloom:
+total 0
+
+./lillipup7:
+total 11
+-r--r---w-   1 s336768  studs         55 сент. 13 10:41 chingling
+-r--r-----   1 s336768  studs         20 сент. 13 10:39 gabite
+lrwxrwxrwx   1 s336768  studs         11 сент. 15 14:54 gabitekrookodile -> krookodile6
+drwxr-x-wx   3 s336768  studs          3 сент. 15 16:59 klinklang
+dr-xr-xrwx   2 s336768  studs          2 сент. 13 10:13 petilil
+
+./lillipup7/klinklang:
+total 3
+drwxr--r--   2 s336768  studs          7 сент. 15 17:02 cherubi3
+
+./lillipup7/klinklang/cherubi3:
+total 9
+-rwxr--r--   1 s336768  studs         48 сент. 15 20:58 houndour
+-rwxr--r--   1 s336768  studs          0 сент. 15 20:58 machamp
+-rw-------   1 s336768  studs        138 сент. 15 20:58 pupitar
+-r--r--r--   1 s336768  studs        162 сент. 15 16:59 shuppet
+-rwxr--r--   1 s336768  studs        166 сент. 15 20:58 simisage
+
+./lillipup7/petilil:
+total 0
+
+./skiploom:
+total 0
+
+./strepi:
+total 0
+s336768@helios:/home/s336768/lab0$ cat lillipup7/chingling
+Способности Mind Mold Levitate Serene
+Grace
+s336768@helios:/home/s336768/lab0$ touch lillipup7/test
+s336768@helios:/home/s336768/lab0$ ls lillipup7
+chingling         gabite            gabitekrookodile  klinklang         petilil           test
+s336768@helios:/home/s336768/lab0$ rm lillipup7/test
+s336768@helios:/home/s336768/lab0$ ls
+1            camerupt     Copy21       Copyk32      emboar3      krookodile6  mounth       sa           strepi      test         trop.txt     tyrogue8_52
+buizel       cherubi3     Copy31       cranidos     gloom        lillipup7    s            skiploom     swop         testr56      tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ ls lillipup7
+chingling         gabite            gabitekrookodile  klinklang         petilil
+s336768@helios:/home/s336768/lab0$ client_loop: send disconnect: Connection reset
+
+C:\Users\sasao>ssh helios
+Password:
+Last login: Thu Oct  7 08:21:28 2021 from 177.115.126.79.
+Oracle Corporation      SunOS 5.10      Generic Patch   January 2005
+s336768@helios:/home/s336768$ cd lab0
+s336768@helios:/home/s336768/lab0$ ls -l
+total 48
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d-w-r--r--   2 s336768  studs          7 сент. 17 15:00 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ ls lillipup7
+chingling         gabite            gabitekrookodile  klinklang         petilil
+s336768@helios:/home/s336768/lab0$ ls cranidos
+cranidos
+s336768@helios:/home/s336768/lab0$ ls -lp
+total 48
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d-w-r--r--   2 s336768  studs          7 сент. 17 15:00 cherubi3/
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom/
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7/
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom/
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi/
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ ls gloom
+s336768@helios:/home/s336768/lab0$ ls skiploom
+s336768@helios:/home/s336768/lab0$ ls lillipup7
+chingling         gabite            gabitekrookodile  klinklang         petilil
+s336768@helios:/home/s336768/lab0$ cat lillipup7 chingling
+cat: input error on lillipup7: Is a directory
+cat: cannot open chingling
+s336768@helios:/home/s336768/lab0$ ls lillipup7 gabite
+gabite: No such file or directory
+lillipup7:
+chingling         gabite            gabitekrookodile  klinklang         petilil
+s336768@helios:/home/s336768/lab0$ ls lillipup7/gabite
+lillipup7/gabite
+s336768@helios:/home/s336768/lab0$ cat lillipup7/gabite
+satk=5 sdef=6
+spd=8
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+cherubi3: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u+r cherubi3
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+houndour  machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ cat cherubi3/houndour
+cat: cannot open cherubi3/houndour
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+cherubi3/shuppet: Permission denied
+cherubi3/simisage: Permission denied
+cherubi3/machamp: Permission denied
+cherubi3/houndour: Permission denied
+cherubi3/pupitar: Permission denied
+total 0
+s336768@helios:/home/s336768/lab0$ chmod u+x cherubi3
+s336768@helios:/home/s336768/lab0$ ls -lp cherubi3
+total 9
+-rwxr--rw-   1 s336768  studs         48 сент. 24 10:45 houndour
+-rwxr--rw-   1 s336768  studs          0 сент. 13 10:11 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+s336768@helios:/home/s336768/lab0$ cat cherubi3/houndour
+Развитые способности Unnerve
+s336768@helios:/home/s336768/lab0$ chmod u-x cherubi3
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+cherubi3/shuppet: Permission denied
+cherubi3/simisage: Permission denied
+cherubi3/machamp: Permission denied
+cherubi3/houndour: Permission denied
+cherubi3/pupitar: Permission denied
+total 0
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+houndour  machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ cat cherubi3/houndour
+cat: cannot open cherubi3/houndour
+s336768@helios:/home/s336768/lab0$ touch cherubi3/test
+touch: cannot stat cherubi3/test: Permission denied
+s336768@helios:/home/s336768/lab0$ rm cherubi3/houndour
+cherubi3/houndour: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u-r+x cherubi3
+s336768@helios:/home/s336768/lab0$ ls -l
+total 48
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d-wxr--r--   2 s336768  studs          7 сент. 17 15:00 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+cherubi3: Permission denied
+s336768@helios:/home/s336768/lab0$ ls -l cheurbi3
+cheurbi3: No such file or directory
+s336768@helios:/home/s336768/lab0$ cat cherubi3/houndour
+Развитые способности Unnerve
+s336768@helios:/home/s336768/lab0$ touch cherubi3/test
+s336768@helios:/home/s336768/lab0$ rm cherubi3/test
+s336768@helios:/home/s336768/lab0$ chmod u-x cherubi3
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+ksh: cherubi3: permission denied
+s336768@helios:/home/s336768/lab0$ cat cherubi3/houndour
+cat: cannot open cherubi3/houndour
+s336768@helios:/home/s336768/lab0$ rm cherubi3/houndour
+cherubi3/houndour: Permission denied
+s336768@helios:/home/s336768/lab0$ touch cherubi3/test
+touch: cannot stat cherubi3/test: Permission denied
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+cherubi3: Permission denied
+s336768@helios:/home/s336768/lab0$ mv lillipup7/gabite cherubi3
+mv: cannot rename lillipup7/gabite to cherubi3/gabite: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod 777 cherubi3
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+s336768@helios:/home/s336768/lab0/cherubi3$ cat houndour
+Развитые способности Unnerve
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 9
+-rwxr--rw-   1 s336768  studs         48 сент. 24 10:45 houndour
+-rwxr--rw-   1 s336768  studs          0 сент. 13 10:11 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u= houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cat houndour
+cat: cannot open houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=r houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cat houndour
+Развитые способности Unnerve
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'jdklfhs' >> houndour
+ksh: houndour: cannot create
+s336768@helios:/home/s336768/lab0/cherubi3$ wc houndour
+       1       3      48 houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ tail houndour
+Развитые способности Unnerve
+s336768@helios:/home/s336768/lab0/cherubi3$ grep 'Unnerve' houndour
+Развитые способности Unnerve
+s336768@helios:/home/s336768/lab0/cherubi3$ grep 'djls' houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=w houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cat houndour
+cat: cannot open houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'dkfjlsjf' >> houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'dksjflkjsdlfjlkdjflkjalfkjlkds' >> houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ wc houndour
+wc: cannot open houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod 777 houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cat houndour
+Развитые способности Unnerve
+dkfjlsjf
+dksjflkjsdlfjlkdjflkjalfkjlkds
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=r houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cat houndour
+Развитые способности Unnerve
+dkfjlsjf
+dksjflkjsdlfjlkdjflkjalfkjlkds
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'Hello, you are the best!' > houndour
+ksh: houndour: cannot create
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'Hello' > test
+s336768@helios:/home/s336768/lab0/cherubi3$ cat test
+Hello
+s336768@helios:/home/s336768/lab0/cherubi3$ touch test
+s336768@helios:/home/s336768/lab0/cherubi3$ cat test
+Hello
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'ldjfls' > test
+s336768@helios:/home/s336768/lab0/cherubi3$ cat test
+ldjfls
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'dkfj' > houndour
+ksh: houndour: cannot create
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod 777 houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cat houndour
+Развитые способности Unnerve
+dkfjlsjf
+dksjflkjsdlfjlkdjflkjalfkjlkds
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=r houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ touch houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cat houndour
+Развитые способности Unnerve
+dkfjlsjf
+dksjflkjsdlfjlkdjflkjalfkjlkds
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=  houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cat houndour
+cat: cannot open houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'dljf' > houndour
+ksh: houndour: cannot create
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 11
+----rwxrwx   1 s336768  studs         88 окт.  7 09:56 houndour
+-rwxr--rw-   1 s336768  studs          0 сент. 13 10:11 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ touch houndou
+s336768@helios:/home/s336768/lab0/cherubi3$ touch houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 12
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rwxr--rw-   1 s336768  studs          0 сент. 13 10:11 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ touch ls -lu
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 14
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs          0 сент. 24 20:02 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'dlkfj' >> machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 14
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs          6 окт.  7 09:59 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 14
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs          6 сент. 24 20:02 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ cat machamp
+dlkfj
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs          6 окт.  7 09:59 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ cat -lu
+cat: illegal option -- l
+usage: cat [ -usvtebn ] [-|file] ...
+s336768@helios:/home/s336768/lab0/cherubi3$ cat houndou
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs          6 окт.  7 09:59 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs          6 окт.  7 10:01 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs          6 окт.  7 09:59 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs          6 окт.  7 10:01 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ cat machamp
+dlkfj
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs          6 окт.  7 09:59 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs          6 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'dkfjs' >> machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         12 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         12 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=0 machamp
+chmod: ERROR: invalid mode
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         12 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         12 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u= machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         12 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         12 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lc
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         12 окт.  7 10:06 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 24 13:40 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 24 13:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'sdkfsj' >> machamp
+ksh: machamp: cannot create
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         12 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         12 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=rwx machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         12 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         12 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'lskdfj' >> machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         19 окт.  7 10:07 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lU
+ls: illegal option -- U
+usage: ls -1RaAdCxmnlhogrtuvVcpFbqisfHLeE@ [files]
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         19 окт.  7 10:04 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ cat machamp
+dlkfj
+dkfjs
+lskdfj
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         19 окт.  7 10:07 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         19 окт.  7 10:08 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ client_loop: send disconnect: Connection reset
+
+C:\Users\sasao>ssh helios
+Password:
+Last login: Thu Oct  7 09:56:37 2021 from 177.115.126.79.
+Oracle Corporation      SunOS 5.10      Generic Patch   January 2005
+s336768@helios:/home/s336768$ cd /etc/pasword
+ksh: /etc/pasword:  not found
+s336768@helios:/home/s336768$ cd /
+s336768@helios:/$ ls
+bin       core      devices   etc       helios    kernel    mnt       opt       proc      sbin      system    tmp       var
+boot      dev       E         export    home      lib       net       platform  root      share     tftpboot  usr       vol
+s336768@helios:/$ cd etc
+s336768@helios:/etc$ ls
+acct                  dhcp                  iiim                  mountall              pgsql                 rpcsec                telinit
+aggregation.conf      dmi                   ima.conf              mpapi.conf            power.conf            rpld.conf             termcap
+amd64                 driver_aliases        imq                   mvdir                 power.conf.fcs-2      rtc_config            TIMEZONE
+apache                driver_classes        inet                  name_to_major         ppp                   saf                   TIMEZONE.temp
+apache2               dt                    inetd.conf            name_to_sysnum        printers.conf         samba                 tm
+apoc                  dumpadm.conf          init                  nca                   product-info          sasl                  tomcat8
+auto_home             dumpdates             init.d                ncheck                profile               scrollkeeper.conf     ttydefs
+auto_master           esd.conf              initpipe              net                   project               sdp.conf              ttysrch
+autopush              fddi.cfg              inittab               netconfig             protocols             security              uadmin
+autoreg               ff                    install               netmasks              prtconf               services              umount
+bonobo-activation     flash                 ioctl.syscon          networks              prtvtoc               setmnt                umountall
+bootrc                fm                    ipf                   nfs                   publickey             sfw                   unlink
+brand                 fmthard               iscsi                 nfssec.conf           pwck                  sgml                  usb
+cacao                 fonts                 iu.ap                 nodename              quagga                shadow                user_attr
+certs                 format                killall               nscd.conf             rc0                   shells                utmppipe
+cfgadm                format.dat            krb5                  nsswitch.conf         rc0.d                 shutdown              utmpx
+chroot                fs                    labelit               nsswitch.conf.bak     rc1                   skel                  uucp
+clri                  fsck                  lib                   nsswitch.dns          rc1.d                 sma                   vfstab
+coreadm.conf          fsdb                  link                  nsswitch.files        rc2                   smartcard             vfstab-INSTALL
+cron                  fstyp                 llc2                  nsswitch.ldap         rc2.d                 smc                   volcopy
+cron.d                ftpd                  log                   nsswitch.nis          rc3                   snmp                  vold.conf
+crypto                fuser                 logadm.conf           nsswitch.nisplus      rc3.d                 sock2path             wall
+dacf.conf             gconf                 logindevperm          opasswd               rc5                   sound                 webconsole
+dat                   getty                 lp                    openssl               rc6                   ssh                   webmin
+datemsk               gimp                  lu                    openwin               rcap.conf             ssl                   wgetrc
+dcopy                 gnome-vfs-2.0         lvm                   opt                   rcm                   sulogin               wgetrc.new
+default               gnome-vfs-mime-magic  mach                  orbitrc               rcS                   sunvts                whodo
+defaultdomain         gnopernicus-1.0       magic                 oshadow               rcS.d                 svc                   wtmpx
+defaultrouter         group                 mail                  pam.conf              reboot                swap                  X11
+dev                   grpck                 mailcap               pam.conf-winbind      release               swapadd               xml
+device.tab            gss                   mime.types            pam.conf.orig         remote                sysdef                xpdfrc
+devices               gtk                   minor_perm            pango                 resolv.conf           sysevent              zfs
+devlink.tab           gtk-2.0               mkfs                  passwd                rmmount.conf          syslog.conf           zones
+devlink.tab.old       halt                  mknod                 patch                 rmt                   syslog.pid
+devlink.tab.utbak     hba.conf              mnttab                path_to_inst          rmtab                 system
+dfs                   hostname.igb0         motd                  path_to_inst-INSTALL  rndc.key              system-INSTALL
+dgroup.tab            hosts                 mount                 path_to_inst.old      rpc                   tar
+s336768@helios:/etc$ cd passwd
+ksh: passwd: not a directory
+s336768@helios:/etc$ cat passwd
+root:x:0:0:Super-User:/root:/sbin/sh
+toor:x:0:0:Super-User:/root:/sbin/nologin
+daemon:x:1:1::/:
+bin:x:2:2::/usr/bin:
+sys:x:3:3::/:
+adm:x:4:4:Admin:/var/adm:
+lp:x:71:8:Line Printer Admin:/usr/spool/lp:
+uucp:x:5:5:uucp Admin:/usr/lib/uucp:
+nuucp:x:9:9:uucp Admin:/var/spool/uucppublic:/usr/lib/uucp/uucico
+smmsp:x:25:25:SendMail Message Submission Program:/:
+listen:x:37:4:Network Admin:/usr/net/nls:
+gdm:x:50:50:GDM Reserved UID:/:
+webservd:x:80:80:WebServer Reserved UID:/var/www/data:
+postgres:x:90:90:PostgreSQL Reserved UID:/:/usr/bin/pfksh
+svctag:x:95:12:Service Tag UID:/:
+unknown:x:96:96:Unknown Remote UID:/:
+nobody:x:60001:60001:NFS Anonymous Access User:/:
+noaccess:x:60002:60002:No Access User:/:
+nobody4:x:65534:65534:SunOS 4.x NFS Anonymous Access User:/:
+admin:x:100:14:Admin:/root:
+ds:x:101:101:Directory Server:/var/ds:/usr/bin/ksh
+oracle:x:200:200:Oracle Server:/opt/oracle:/usr/bin/ksh
+system:x:1001:1001:Brainfuck user for labs:/:
+sysadmin:x:1002:3:Brainfuck root for labs:/:
+studs:x:600:60001:Just for lulz:/:
+studsroot:x:601:60001:Just for lulz:/:
+ztudz:x:666:60002:Just for lulz:/:/usr/local/etc/sh
+zabbix:x:122:122:Zabbix NMS:/var/zabbix:/nonexistent
+s336768@helios:/etc$ cd
+s336768@helios:/home/s336768$ passwrd
+ksh: passwrd:  not found
+s336768@helios:/home/s336768$ passwd
+passwd: Changing password for s336768
+Enter existing login password:
+New Password:
+passwd: The first 8 characters of the password must contain at least 2 alphabetic character(s).
+
+Please try again
+New Password:
+Re-enter new Password:
+passwd: password successfully changed for s336768
+s336768@helios:/home/s336768$ frequently misunderstood file permission issuesсв
+ksh: frequently:  not found
+s336768@helios:/home/s336768$ cd
+s336768@helios:/home/s336768$ cd lab0/cherubi3
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+-lu       houndou   houndour  ls        machamp   pupitar   shuppet   simisage  test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         19 окт.  7 10:07 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         19 окт.  7 10:08 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lc
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxr--rw-   1 s336768  studs         19 окт.  7 10:07 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 24 13:40 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 24 13:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod machamp
+usage:  chmod [-fR] <absolute-mode> file ...
+        chmod [-fR] <ACL-operation> file ...
+        chmod [-fR] <symbolic-mode-list> file ...
+where   <symbolic-mode-list> is a comma-separated list of
+        [ugoa]{+|-|=}[rwxXlstugo]
+where   <ACL-operation> is one of the following
+        A-<acl_specification>
+        A[number]-
+        A[number]{+|=}<acl_specification>
+where   <acl-specification> is a comma-separated list of ACEs
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u= machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ cat machamp
+cat: cannot open machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ touch machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lc
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 24 13:40 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 24 13:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+-lu       houndou   houndour  ls        machamp   pupitar   shuppet   simisage  test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lc
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 24 13:40 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 24 13:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls-lc
+ksh: ls-lc:  not found
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lc
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 24 13:40 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 24 13:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ cat machamp
+cat: cannot open machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lc
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:33 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 24 13:40 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 24 13:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ touch machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:35 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:35 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lc
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+----r--rw-   1 s336768  studs         19 окт.  7 10:35 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 24 13:40 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 24 13:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod 777 machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs         19 окт.  7 10:35 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs         19 окт.  7 10:35 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lc
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs         19 окт.  7 10:37 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 24 13:40 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 24 13:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ cat machamp
+dlkfj
+dkfjs
+lskdfj
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs         19 окт.  7 10:35 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -lu
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 10:01 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs         19 окт.  7 10:37 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 20:02 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 27 14:04 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 27 10:41 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ echo 'dlsjf' > machamp
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 15
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs          6 окт.  7 10:37 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 09:55 test
+s336768@helios:/home/s336768/lab0/cherubi3$ cd ..
+s336768@helios:/home/s336768/lab0$ ls -l
+total 48
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwxrwxrwx   2 s336768  studs         11 окт.  7 09:59 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-r--r-----   1 s336768  studs         73 сент. 13 10:49 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ chmod u=r cherubi3
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+-lu       houndou   houndour  ls        machamp   pupitar   shuppet   simisage  test
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+cherubi3/ls: Permission denied
+cherubi3/-lu: Permission denied
+cherubi3/houndou: Permission denied
+cherubi3/shuppet: Permission denied
+cherubi3/simisage: Permission denied
+cherubi3/machamp: Permission denied
+cherubi3/houndour: Permission denied
+cherubi3/test: Permission denied
+cherubi3/pupitar: Permission denied
+total 0
+s336768@helios:/home/s336768/lab0$ ls -R cherubi3
+cherubi3:
+cherubi3/ls: Permission denied
+cherubi3/-lu: Permission denied
+cherubi3/houndou: Permission denied
+cherubi3/shuppet: Permission denied
+cherubi3/simisage: Permission denied
+cherubi3/machamp: Permission denied
+cherubi3/houndour: Permission denied
+cherubi3/test: Permission denied
+cherubi3/pupitar: Permission denied
+s336768@helios:/home/s336768/lab0$ ls -t cherubi3
+cherubi3/ls: Permission denied
+cherubi3/-lu: Permission denied
+cherubi3/houndou: Permission denied
+cherubi3/shuppet: Permission denied
+cherubi3/simisage: Permission denied
+cherubi3/machamp: Permission denied
+cherubi3/houndour: Permission denied
+cherubi3/test: Permission denied
+cherubi3/pupitar: Permission denied
+s336768@helios:/home/s336768/lab0$ ls -F cherubi3
+cherubi3/ls: Permission denied
+cherubi3/-lu: Permission denied
+cherubi3/houndou: Permission denied
+cherubi3/shuppet: Permission denied
+cherubi3/simisage: Permission denied
+cherubi3/machamp: Permission denied
+cherubi3/houndour: Permission denied
+cherubi3/test: Permission denied
+cherubi3/pupitar: Permission denied
+s336768@helios:/home/s336768/lab0$ ln -s cherubi3 triip
+s336768@helios:/home/s336768/lab0$ ls
+1            camerupt     Copy21       Copyk32      emboar3      krookodile6  mounth       sa           strepi      test         triip        tyrogue8     walrein
+buizel       cherubi3     Copy31       cranidos     gloom        lillipup7    s            skiploom     swop         testr56      trop.txt     tyrogue8_52
+s336768@helios:/home/s336768/lab0$ chmod u= cherubi3
+s336768@helios:/home/s336768/lab0$ ln -s cherubi3 tree
+s336768@helios:/home/s336768/lab0$ ls
+1            camerupt     Copy21       Copyk32      emboar3      krookodile6  mounth       sa           strepi      test         tree         trop.txt     tyrogue8_52
+buizel       cherubi3     Copy31       cranidos     gloom        lillipup7    s            skiploom     swop         testr56      triip        tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ ls -p
+1             cherubi3/     Copyk32       gloom/        mounth        skiploom/     test          triip         tyrogue8_52
+buizel        Copy21        cranidos      krookodile6   s             strepi/      testr56       trop.txt      walrein
+camerupt      Copy31        emboar3       lillipup7/    sa            swop          tree          tyrogue8
+s336768@helios:/home/s336768/lab0$ ln -s cranidos cranidos5
+s336768@helios:/home/s336768/lab0$ ls
+1            cherubi3     Copyk32      emboar3      lillipup7    sa           swop         tree         tyrogue8
+buizel       Copy21       cranidos     gloom        mounth       skiploom     test         triip        tyrogue8_52
+camerupt     Copy31       cranidos5    krookodile6  s            strepi      testr56      trop.txt     walrein
+s336768@helios:/home/s336768/lab0$ chmod u= cranidos
+s336768@helios:/home/s336768/lab0$ ln -s cranidos
+ln: cannot create ./cranidos: File exists
+s336768@helios:/home/s336768/lab0$ ln -s cranidos cranidos1
+s336768@helios:/home/s336768/lab0$ ls
+1            cherubi3     Copyk32      cranidos5    krookodile6  s            strepi      testr56      trop.txt     walrein
+buizel       Copy21       cranidos     emboar3      lillipup7    sa           swop         tree         tyrogue8
+camerupt     Copy31       cranidos1    gloom        mounth       skiploom     test         triip        tyrogue8_52
+s336768@helios:/home/s336768/lab0$ ln cranidos cranidos2
+s336768@helios:/home/s336768/lab0$ ls
+1            cherubi3     Copyk32      cranidos2    gloom        mounth       skiploom     test         triip        tyrogue8_52
+buizel       Copy21       cranidos     cranidos5    krookodile6  s            strepi      testr56      trop.txt     walrein
+camerupt     Copy31       cranidos1    emboar3      lillipup7    sa           swop         tree         tyrogue8
+s336768@helios:/home/s336768/lab0$ cat cranidos
+cat: cannot open cranidos
+s336768@helios:/home/s336768/lab0$ chmod 777 cranidos
+s336768@helios:/home/s336768/lab0$ cat cranidos
+Возможности Overland=6 Jump=4 Power=3
+Intelligence=3 Sinker=0
+s336768@helios:/home/s336768/lab0$ cat cranidos2
+Возможности Overland=6 Jump=4 Power=3
+Intelligence=3 Sinker=0
+s336768@helios:/home/s336768/lab0$ cat cranidos1
+Возможности Overland=6 Jump=4 Power=3
+Intelligence=3 Sinker=0
+s336768@helios:/home/s336768/lab0$ echo 'Sniker is lol' >> cranidos1
+s336768@helios:/home/s336768/lab0$ cat cranidos2
+Возможности Overland=6 Jump=4 Power=3
+Intelligence=3 Sinker=0
+Sniker is lol
+s336768@helios:/home/s336768/lab0$ ls -l
+total 54
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d---rwxrwx   2 s336768  studs         11 окт.  7 09:59 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy21 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:42 Copy31 -> swalot6
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-rwxrwxrwx   2 s336768  studs         87 окт.  7 10:45 cranidos
+lrwxrwxrwx   1 s336768  studs          8 окт.  7 10:44 cranidos1 -> cranidos
+-rwxrwxrwx   2 s336768  studs         87 окт.  7 10:45 cranidos2
+lrwxrwxrwx   1 s336768  studs          8 окт.  7 10:43 cranidos5 -> cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+lrwxrwxrwx   1 s336768  studs          8 окт.  7 10:42 tree -> cherubi3
+lrwxrwxrwx   1 s336768  studs          8 окт.  7 10:42 triip -> cherubi3
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ rm cranidos5 cranidos2 cranidos1 tree triip Copy21 Copy31
+s336768@helios:/home/s336768/lab0$ ls
+1            camerupt     Copyk32      emboar3      krookodile6  mounth       sa           strepi      test         trop.txt     tyrogue8_52
+buizel       cherubi3     cranidos     gloom        lillipup7    s            skiploom     swop         testr56      tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ ls -l
+total 46
+-rw-r--r--   1 s336768  studs          0 сент. 22 10:31 1
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d---rwxrwx   2 s336768  studs         11 окт.  7 09:59 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ cat 1
+s336768@helios:/home/s336768/lab0$ rm 1
+s336768@helios:/home/s336768/lab0$ ls -l
+total 45
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d---rwxrwx   2 s336768  studs         11 окт.  7 09:59 cherubi3
+lrwxrwxrwx   1 s336768  studs          7 сент. 27 08:43 Copyk32 -> swalot6
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+-rw-r--r--   1 s336768  studs          7 сент. 27 10:29 s
+-rw-r--r--   1 s336768  studs         11 сент. 27 10:36 sa
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rw-r--r--   1 s336768  studs         42 сент. 22 10:59 test
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:11 testr56
+-rw-r--r--   1 s336768  studs        179 сент. 15 22:13 trop.txt
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ rm Copyk32 s sa test testr56
+s336768@helios:/home/s336768/lab0$ cat trop.txt
+hekdlug
+sakdfjlu
+dfjwieur
+jdgiu
+asfdjiogu
+djfiour
+fjigyekjf
+fjioejf
+jfoiwejg
+jdfoweigj
+fjdiohe
+tiour
+bewoiu43
+gjio4jgfj
+sjogire
+gj[wijg
+jeiohg
+jgoighew
+awjoyuer
+bhjoretj
+jfluoijj
+s336768@helios:/home/s336768/lab0$ rm trop.txt
+s336768@helios:/home/s336768/lab0$ ls -l
+total 34
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d---rwxrwx   2 s336768  studs         11 окт.  7 09:59 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ chmod cherubi3
+usage:  chmod [-fR] <absolute-mode> file ...
+        chmod [-fR] <ACL-operation> file ...
+        chmod [-fR] <symbolic-mode-list> file ...
+where   <symbolic-mode-list> is a comma-separated list of
+        [ugoa]{+|-|=}[rwxXlstugo]
+where   <ACL-operation> is one of the following
+        A-<acl_specification>
+        A[number]-
+        A[number]{+|=}<acl_specification>
+where   <acl-specification> is a comma-separated list of ACEs
+s336768@helios:/home/s336768/lab0$ chmod 000 cherubi3
+s336768@helios:/home/s336768/lab0$ ls -l
+total 34
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d---------   2 s336768  studs         11 окт.  7 09:59 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ chmod u=w cherubi3
+s336768@helios:/home/s336768/lab0$ touch cherubi3/test
+touch: cannot stat cherubi3/test: Permission denied
+s336768@helios:/home/s336768/lab0$ ln -s cranidos cherubi3/test
+ln: cannot create cherubi3/test: Permission denied
+s336768@helios:/home/s336768/lab0$ rm cherubi3/houndour
+cherubi3/houndour: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=wx cherubi3
+s336768@helios:/home/s336768/lab0$ touch cherubi3/test
+s336768@helios:/home/s336768/lab0$ ln -s cranidos cherubi3/test1
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      krookodile6  mounth       strepi      tyrogue8     walrein
+camerupt     cranidos     gloom        lillipup7    skiploom     swop         tyrogue8_52
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+cherubi3: Permission denied
+s336768@helios:/home/s336768/lab0$ ls -R
+.:
+buizel       cherubi3     emboar3      krookodile6  mounth       strepi      tyrogue8     walrein
+camerupt     cranidos     gloom        lillipup7    skiploom     swop         tyrogue8_52
+
+./cherubi3:
+./cherubi3: Permission denied
+
+./gloom:
+
+./lillipup7:
+chingling         gabite            gabitekrookodile  klinklang         petilil
+
+./lillipup7/klinklang:
+cherubi3
+
+./lillipup7/klinklang/cherubi3:
+houndour  machamp   pupitar   shuppet   simisage
+
+./lillipup7/petilil:
+
+./skiploom:
+
+./strepi:
+s336768@helios:/home/s336768/lab0$ chmod u+r cherubi3
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+-lu       houndou   houndour  ls        machamp   pupitar   shuppet   simisage  test      test1
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+total 16
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs          6 окт.  7 10:37 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-rw-r--r--   1 s336768  studs          7 окт.  7 10:49 test
+lrwxrwxrwx   1 s336768  studs          8 окт.  7 10:50 test1 -> cranidos
+s336768@helios:/home/s336768/lab0$ rm cherubi3/test
+s336768@helios:/home/s336768/lab0$ chmod u=rx cherubi3
+s336768@helios:/home/s336768/lab0$ rm cherubi3/test1
+rm: cherubi3/test1 not removed: Permission denied
+s336768@helios:/home/s336768/lab0$ ln cranidos cherubi3/test
+ln: cannot create link cherubi3/test: Permission denied
+s336768@helios:/home/s336768/lab0$ ls -l
+total 34
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+dr-x------   2 s336768  studs         11 окт.  7 10:52 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+s336768@helios:/home/s336768/lab0/cherubi3$ cd ..
+s336768@helios:/home/s336768/lab0$ chmod u=rw cherubi3
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+ksh: cherubi3: permission denied
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+-lu       houndou   houndour  ls        machamp   pupitar   shuppet   simisage  test1
+s336768@helios:/home/s336768/lab0$ rm cherubi3/machamp
+cherubi3/machamp: Permission denied
+s336768@helios:/home/s336768/lab0$ cat cherubi3/machamp
+cat: cannot open cherubi3/machamp
+s336768@helios:/home/s336768/lab0$ chmod u=x cherubi3
+s336768@helios:/home/s336768/lab0$ cd cherib3
+ksh: cherib3:  not found
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+.: Permission denied
+s336768@helios:/home/s336768/lab0/cherubi3$ cat machamp
+dlsjf
+s336768@helios:/home/s336768/lab0/cherubi3$ touch test3324
+touch: cannot create test3324: Permission denied
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+.: Permission denied
+total 3
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=rx ../lab0/cherubi3
+chmod: WARNING: can't access ../lab0/cherubi3
+s336768@helios:/home/s336768/lab0/cherubi3$ cd ..
+s336768@helios:/home/s336768/lab0$ chmod u=rx cherubi3
+s336768@helios:/home/s336768/lab0$ ls -l
+total 34
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+dr-x------   2 s336768  studs         11 окт.  7 10:52 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ cp cherubi3/houndour ../lab0/treep
+cp: cannot open cherubi3/houndour: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=w cherubi3
+s336768@helios:/home/s336768/lab0$ cp cherubi3/houndour ../lab0/treep
+cp: cannot access cherubi3/houndour
+s336768@helios:/home/s336768/lab0$ chmod u=wx cherubi3
+s336768@helios:/home/s336768/lab0$ cp cherubi3/houndour ../lab0/treep
+cp: cannot open cherubi3/houndour: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod cherubi3
+usage:  chmod [-fR] <absolute-mode> file ...
+        chmod [-fR] <ACL-operation> file ...
+        chmod [-fR] <symbolic-mode-list> file ...
+where   <symbolic-mode-list> is a comma-separated list of
+        [ugoa]{+|-|=}[rwxXlstugo]
+where   <ACL-operation> is one of the following
+        A-<acl_specification>
+        A[number]-
+        A[number]{+|=}<acl_specification>
+where   <acl-specification> is a comma-separated list of ACEs
+s336768@helios:/home/s336768/lab0$ chmod 700 cherubi3
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+total 14
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+----rwxrwx   1 s336768  studs         88 окт.  7 09:58 houndour
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs          6 окт.  7 10:37 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+lrwxrwxrwx   1 s336768  studs          8 окт.  7 10:50 test1 -> cranidos
+s336768@helios:/home/s336768/lab0$ client_loop: send disconnect: Connection reset
+
+C:\Users\sasao>ssh helios
+Password:
+Last login: Thu Oct  7 10:23:19 2021 from 177.115.126.79.
+Oracle Corporation      SunOS 5.10      Generic Patch   January 2005
+s336768@helios:/home/s336768$ chmod u=r houndour
+chmod: WARNING: can't access houndour
+s336768@helios:/home/s336768$ cd lab0/cherubi3
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod houndour
+usage:  chmod [-fR] <absolute-mode> file ...
+        chmod [-fR] <ACL-operation> file ...
+        chmod [-fR] <symbolic-mode-list> file ...
+where   <symbolic-mode-list> is a comma-separated list of
+        [ugoa]{+|-|=}[rwxXlstugo]
+where   <ACL-operation> is one of the following
+        A-<acl_specification>
+        A[number]-
+        A[number]{+|=}<acl_specification>
+where   <acl-specification> is a comma-separated list of ACEs
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=r houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cp houndour testh
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+-lu       houndou   houndour  ls        machamp   pupitar   shuppet   simisage  test1     testh
+s336768@helios:/home/s336768/lab0/cherubi3$ cat testh
+Развитые способности Unnerve
+dkfjlsjf
+dksjflkjsdlfjlkdjflkjalfkjlkds
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=w houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cp houndour testh
+cp: cannot open houndour: Permission denied
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod u=r houndour
+s336768@helios:/home/s336768/lab0/cherubi3$ cd ..
+s336768@helios:/home/s336768/lab0$ ls -l
+total 34
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwx------   2 s336768  studs         12 окт.  7 11:53 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ chmod u=r cherubi3
+s336768@helios:/home/s336768/lab0$ cp cherubi3/houndour testh
+cp: cannot access cherubi3/houndour
+s336768@helios:/home/s336768/lab0$ chmod u=wx cherubi3
+s336768@helios:/home/s336768/lab0$ cp cherubi3/houndour testh
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      krookodile6  mounth       strepi      testh        tyrogue8_52
+camerupt     cranidos     gloom        lillipup7    skiploom     swop         tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ chmod u=x cherubi3
+s336768@helios:/home/s336768/lab0$ cp cherubi3/houndour ter
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      krookodile6  mounth       strepi      ter          tyrogue8     walrein
+camerupt     cranidos     gloom        lillipup7    skiploom     swop         testh        tyrogue8_52
+s336768@helios:/home/s336768/lab0$ chmod u=rw cherubi3
+s336768@helios:/home/s336768/lab0$ cp cherubi3/houndour terdts
+cp: cannot access cherubi3/houndour
+s336768@helios:/home/s336768/lab0$
+s336768@helios:/home/s336768/lab0$ chmod u=x cherubi3
+s336768@helios:/home/s336768/lab0$ mv cherubi3/houndour lab0
+mv: cannot rename cherubi3/houndour to lab0: Permission denied
+s336768@helios:/home/s336768/lab0$ mv cherubi3/houndour lab0/
+mv: cannot rename cherubi3/houndour to lab0/: Permission denied
+s336768@helios:/home/s336768/lab0$ cd ..
+s336768@helios:/home/s336768$ ls
+lab0       login.sql  mnt        pop
+s336768@helios:/home/s336768$ ls -l
+total 11
+drwxr-xr-x   7 s336768  studs         19 окт.  7 11:56 lab0
+-rw-r--r--   1 s336768  studs       5844 сент.  1 07:03 login.sql
+lrwxrwxrwx   1 root     root          23 сент.  1 07:03 mnt -> /tmp/SUNWut/mnt/s336768
+-rw-r--r--   1 s336768  studs          5 сент. 27 11:12 pop
+s336768@helios:/home/s336768$ cd lab0
+s336768@helios:/home/s336768/lab0$ mv cherubi3/houndour lab0/houndour
+mv: cannot rename cherubi3/houndour to lab0/houndour: No such file or directory
+s336768@helios:/home/s336768/lab0$ chmod u=rw cherubi3/houndour
+s336768@helios:/home/s336768/lab0$ mv cherubi3/houndour lab0/
+mv: cannot rename cherubi3/houndour to lab0/: Permission denied
+s336768@helios:/home/s336768/lab0$ mv /cherubi3/houndour lab0/
+mv: cannot access /cherubi3/houndour
+s336768@helios:/home/s336768/lab0$ chmod 777 cherubi3/houndour
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+cherubi3: Permission denied
+total 3
+s336768@helios:/home/s336768/lab0$ ls -l
+total 38
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d--x------   2 s336768  studs         12 окт.  7 11:53 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:56 ter
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:55 testh
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ chmod 700 cherubi3
+s336768@helios:/home/s336768/lab0$ mv cherubi3/houndour lab0/
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      krookodile6  lillipup7    skiploom     swop         testh        tyrogue8_52
+camerupt     cranidos     gloom        lab0         mounth       strepi      ter          tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ ls -l
+total 40
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwx------   2 s336768  studs         11 окт.  7 12:01 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+-rwxrwxrwx   1 s336768  studs         88 окт.  7 09:58 lab0
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:56 ter
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:55 testh
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ mv ter cherubi3
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+-lu       houndou   ls        machamp   pupitar   shuppet   simisage  ter       test1     testh
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      krookodile6  lillipup7    skiploom     swop         tyrogue8     walrein
+camerupt     cranidos     gloom        lab0         mounth       strepi      testh        tyrogue8_52
+s336768@helios:/home/s336768/lab0$ mv ter lab0
+mv: cannot access ter
+s336768@helios:/home/s336768/lab0$ mv cherubi3/ter lab0
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      krookodile6  lillipup7    skiploom     swop         tyrogue8     walrein
+camerupt     cranidos     gloom        lab0         mounth       strepi      testh        tyrogue8_52
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+-lu       houndou   ls        machamp   pupitar   shuppet   simisage  test1     testh
+s336768@helios:/home/s336768/lab0$ man mv
+Reformatting page.  Please Wait... done
+
+User Commands                                               mv(1)
+
+NAME
+     mv - move files
+
+SYNOPSIS
+     /usr/bin/mv [-fi] source target_file
+
+     /usr/bin/mv [-fi] source...   target_dir
+
+     /usr/xpg4/bin/mv [-fi] source target_file
+
+     /usr/xpg4/bin/mv [-fi] source...  target_dir
+
+DESCRIPTION
+     In the first synopsis form, the mv utility  moves  the  file
+     named  by the source operand to the destination specified by
+     the target_file. source and target_file  may  not  have  the
+     same  name. If target_file does not exist, mv creates a file
+     named target_file. If target_file exists, its  contents  are
+     overwritten.  This  first  synopsis form is assumed when the
+     final operand does not name an existing directory.
+
+     In the second synopsis form, mv moves each file named  by  a
+     source  operand to a destination file in the existing direc-
+     tory named by the target_dir operand. The  destination  path
+     for  each  source  is the concatenation of the target direc-
+     tory, a single slash character (/), and the last  path  name
+     component  of  the  source. This second form is assumed when
+     the final operand names an existing directory.
+
+     If mv determines that the mode of target_file forbids  writ-
+     ing,  it  will  print  the  mode  (see  chmod(2)), ask for a
+     response, and read the standard input for one line.  If  the
+     response is affirmative, the mv occurs, if permissible; oth-
+     erwise, the command exits. Notice that  the  mode  displayed
+     may  not  fully represent the access permission if target is
+     associated with an ACL. When the parent directory of  source
+     is  writable  and has the sticky bit set, one or more of the
+     following conditions must be true:
+
+s336768@helios:/home/s336768/lab0$ ls -l
+total 38
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwx------   2 s336768  studs         11 окт.  7 12:03 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:56 lab0
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:55 testh
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+total 14
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs          6 окт.  7 10:37 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+lrwxrwxrwx   1 s336768  studs          8 окт.  7 10:50 test1 -> cranidos
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:53 testh
+s336768@helios:/home/s336768/lab0$ mv testh testh1
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      krookodile6  lillipup7    skiploom     swop         tyrogue8     walrein
+camerupt     cranidos     gloom        lab0         mounth       strepi      testh1       tyrogue8_52
+s336768@helios:/home/s336768/lab0$ mv testh cherubi3
+mv: cannot access testh
+s336768@helios:/home/s336768/lab0$ mv testh1 cherubi3
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+-lu       houndou   ls        machamp   pupitar   shuppet   simisage  test1     testh     testh1
+s336768@helios:/home/s336768/lab0$ ls -l
+total 36
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwx------   2 s336768  studs         12 окт.  7 12:05 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:56 lab0
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+total 16
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs          6 окт.  7 10:37 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+lrwxrwxrwx   1 s336768  studs          8 окт.  7 10:50 test1 -> cranidos
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:53 testh
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:55 testh1
+s336768@helios:/home/s336768/lab0$ mv cherubi3/testh cherubi3/testh3
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+total 16
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs          6 окт.  7 10:37 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+lrwxrwxrwx   1 s336768  studs          8 окт.  7 10:50 test1 -> cranidos
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:55 testh1
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:53 testh3
+s336768@helios:/home/s336768/lab0$ client_loop: send disconnect: Connection reset
+
+C:\Users\sasao>ssh helios
+Password:
+Last login: Thu Oct  7 11:52:05 2021 from 177.115.126.79.
+Oracle Corporation      SunOS 5.10      Generic Patch   January 2005
+s336768@helios:/home/s336768$ cd lab0
+s336768@helios:/home/s336768/lab0$ ls -l
+total 36
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwx------   2 s336768  studs         12 окт.  7 12:07 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:56 lab0
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+drwxr-xr-x   2 s336768  studs          2 сент. 26 17:39 strepi
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ cat buizel
+Живет Freshwater Grassland
+s336768@helios:/home/s336768/lab0$ cat camerupt
+cat: cannot open camerupt
+s336768@helios:/home/s336768/lab0$ cat lab0
+Развитые способности Unnerve
+dkfjlsjf
+dksjflkjsdlfjlkdjflkjalfkjlkds
+s336768@helios:/home/s336768/lab0$ rm lab0
+rm: lab0: override protection 455 (да/нет)?
+s336768@helios:/home/s336768/lab0$ cat mounth
+september
+october
+december
+april
+may
+march
+s336768@helios:/home/s336768/lab0$ cat
+
+
+s336768@helios:/home/s336768/lab0$
+s336768@helios:/home/s336768/lab0$ cat strepi?
+cat: input error on strepi: Is a directory
+s336768@helios:/home/s336768/lab0$ cd sterpi?
+ksh: sterpi?:  not found
+s336768@helios:/home/s336768/lab0$ ls strepi?
+s336768@helios:/home/s336768/lab0$ rmdir strepi?
+s336768@helios:/home/s336768/lab0$ ls -lp
+total 33
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwx------   2 s336768  studs         12 окт.  7 12:07 cherubi3/
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom/
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:56 lab0
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7/
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom/
+-rw-r--r--   1 s336768  studs         13 сент. 27 08:45 swop
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ cat swop
+Hello, world
+s336768@helios:/home/s336768/lab0$ rm swop
+s336768@helios:/home/s336768/lab0$ cat tyrogue8
+Развитые способности Virtal Spirit
+s336768@helios:/home/s336768/lab0$ cat tyrogue8_52
+satk=5 sdef=6
+spd=8
+Способности Knock
+ Off Screen Night Shade Spite Will-0-Wisp Shadow Sneak Curse Faint
+ Attack Hex Shadow Ball Sucker Punch Embargo Snatch Grudge
+ Trick
+s336768@helios:/home/s336768/lab0$ cat walrein
+Ходы Aqua Tail Avalanche
+Block Brine Crunch‡ Dive Double-Edge Fury Cutter Icy Wind Iron Head
+Iron Tail Mud-Slap Rollout Signal Beam Sleep Talk Snore Super Fang
+Water Pulse Whirlpool
+s336768@helios:/home/s336768/lab0$ cp walrein fressas
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      gloom        lab0         mounth       tyrogue8     walrein
+camerupt     cranidos     fressas      krookodile6  lillipup7    skiploom     tyrogue8_52
+s336768@helios:/home/s336768/lab0$ cat fressas
+Ходы Aqua Tail Avalanche
+Block Brine Crunch‡ Dive Double-Edge Fury Cutter Icy Wind Iron Head
+Iron Tail Mud-Slap Rollout Signal Beam Sleep Talk Snore Super Fang
+Water Pulse Whirlpool
+s336768@helios:/home/s336768/lab0$ ls -l cherubi3
+total 16
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 -lu
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:57 houndou
+-rw-r--r--   1 s336768  studs          0 окт.  7 09:59 ls
+-rwxrwxrwx   1 s336768  studs          6 окт.  7 10:37 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+lrwxrwxrwx   1 s336768  studs          8 окт.  7 10:50 test1 -> cranidos
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:55 testh1
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:53 testh3
+s336768@helios:/home/s336768/lab0$ rm \-lu
+rm: illegal option -- l
+rm: illegal option -- u
+usage: rm [-fiRr] file ...
+s336768@helios:/home/s336768/lab0$ rm -lu
+rm: illegal option -- l
+rm: illegal option -- u
+usage: rm [-fiRr] file ...
+s336768@helios:/home/s336768/lab0$ rm cherubi3/-lu
+s336768@helios:/home/s336768/lab0$ cat cherubi3/houndou
+s336768@helios:/home/s336768/lab0$ rm cherubi3/houndou
+s336768@helios:/home/s336768/lab0$ rm cherubi3/ls
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+s336768@helios:/home/s336768/lab0/cherubi3$ rm test1 testh1 testh3
+rm: testh1: override protection 455 (да/нет)?
+rm: testh3: override protection 455 (да/нет)?
+s336768@helios:/home/s336768/lab0/cherubi3$
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -l
+total 12
+-rwxrwxrwx   1 s336768  studs          6 окт.  7 10:37 machamp
+-rw--w----   1 s336768  studs        138 сент. 24 13:35 pupitar
+-rwxrwxrwx   1 s336768  studs        162 сент. 13 10:25 shuppet
+-rwxr--rw-   1 s336768  studs        166 сент. 13 10:27 simisage
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:55 testh1
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:53 testh3
+s336768@helios:/home/s336768/lab0/cherubi3$ rm testh1
+rm: testh1: override protection 455 (да/нет)? y
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage  testh1    testh3
+s336768@helios:/home/s336768/lab0/cherubi3$ rm testh1
+rm: testh1: override protection 455 (да/нет)?
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage  testh1    testh3
+s336768@helios:/home/s336768/lab0/cherubi3$ rm testh1
+rm: testh1: override protection 455 (да/нет)? да
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage  testh1    testh3
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod 777 testh1
+s336768@helios:/home/s336768/lab0/cherubi3$ rm testh1
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage  testh3
+s336768@helios:/home/s336768/lab0/cherubi3$ rm testh3
+rm: testh3: override protection 455 (да/нет)?
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage  testh3
+s336768@helios:/home/s336768/lab0/cherubi3$ rm testh3
+rm: testh3: override protection 455 (да/нет)? yes
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage  testh3
+s336768@helios:/home/s336768/lab0/cherubi3$ rm testh3
+rm: testh3: override protection 455 (да/нет)? y
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage  testh3
+s336768@helios:/home/s336768/lab0/cherubi3$ rm testh3
+rm: testh3: override protection 455 (да/нет)? Y
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage  testh3
+s336768@helios:/home/s336768/lab0/cherubi3$ rm -f testh3
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0/cherubi3$ touch test
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod 455 test
+s336768@helios:/home/s336768/lab0/cherubi3$ rm test
+rm: test: override protection 455 (да/нет)? YES
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage  test
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod 555 test
+s336768@helios:/home/s336768/lab0/cherubi3$ rm test
+rm: test: override protection 555 (да/нет)?
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod 755 test
+s336768@helios:/home/s336768/lab0/cherubi3$ rm test
+s336768@helios:/home/s336768/lab0/cherubi3$ touch test
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod 255 teest
+chmod: WARNING: can't access teest
+s336768@helios:/home/s336768/lab0/cherubi3$ chmod 255 test
+s336768@helios:/home/s336768/lab0/cherubi3$ rm test
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0/cherubi3$ cd ..
+s336768@helios:/home/s336768/lab0$ ls -lp
+total 33
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwx------   2 s336768  studs          6 окт.  7 13:46 cherubi3/
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+-r-----r--   1 s336768  studs        188 окт.  7 13:38 fressas
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom/
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+-r--r-xr-x   1 s336768  studs         88 окт.  7 11:56 lab0
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7/
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom/
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ cat lab0
+Развитые способности Unnerve
+dkfjlsjf
+dksjflkjsdlfjlkdjflkjalfkjlkds
+s336768@helios:/home/s336768/lab0$ chmod 755 lab0
+s336768@helios:/home/s336768/lab0$ rm lab0
+s336768@helios:/home/s336768/lab0$ ls -lp
+total 31
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+drwx------   2 s336768  studs          6 окт.  7 13:46 cherubi3/
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+-r-----r--   1 s336768  studs        188 окт.  7 13:38 fressas
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom/
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7/
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom/
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ cp fressas cherubi3/Hello
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+Hello     machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ cat cherubi3/Hello
+Ходы Aqua Tail Avalanche
+Block Brine Crunch‡ Dive Double-Edge Fury Cutter Icy Wind Iron Head
+Iron Tail Mud-Slap Rollout Signal Beam Sleep Talk Snore Super Fang
+Water Pulse Whirlpool
+s336768@helios:/home/s336768/lab0$ mv fressas free
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      gloom        lillipup7    skiploom     tyrogue8_52
+camerupt     cranidos     free         krookodile6  mounth       tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ mv free cherubi3
+s336768@helios:/home/s336768/lab0$ ls
+buizel       camerupt     cherubi3     cranidos     emboar3      gloom        krookodile6  lillipup7    mounth       skiploom     tyrogue8     tyrogue8_52  walrein
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+free      Hello     machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ mv cherubi3/Hello cherubi3/Hey
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+free      Hey       machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ mv cherubi3/Hey Hello
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      Hello        lillipup7    skiploom     tyrogue8_52
+camerupt     cranidos     gloom        krookodile6  mounth       tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ chmod u=r cherubi3
+s336768@helios:/home/s336768/lab0$ cp cherubi3/free yuo
+cp: cannot access cherubi3/free
+s336768@helios:/home/s336768/lab0$ mv cherubi3/free you
+mv: cannot access cherubi3/free
+s336768@helios:/home/s336768/lab0$ chmod u=2 cherubi3
+chmod: ERROR: invalid mode
+s336768@helios:/home/s336768/lab0$ chmod u=w cherubi3
+s336768@helios:/home/s336768/lab0$ cp cherubi3/free you
+cp: cannot access cherubi3/free
+s336768@helios:/home/s336768/lab0$ cp Hello cherubi3
+cp: cannot create cherubi3/Hello: Permission denied
+s336768@helios:/home/s336768/lab0$ mv Hello cherubi3
+mv: cannot rename Hello to cherubi3/Hello: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=x cherubi3
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+s336768@helios:/home/s336768/lab0/cherubi3$ ls
+.: Permission denied
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -
+-: No such file or directory
+s336768@helios:/home/s336768/lab0/cherubi3$ ls -R
+.:
+.: Permission denied
+s336768@helios:/home/s336768/lab0/cherubi3$ cat Hey
+cat: cannot open Hey
+s336768@helios:/home/s336768/lab0/cherubi3$ cat Hello
+cat: cannot open Hello
+s336768@helios:/home/s336768/lab0/cherubi3$ cat machamp
+dlsjf
+s336768@helios:/home/s336768/lab0/cherubi3$ cd ..
+s336768@helios:/home/s336768/lab0$ ls -l
+total 31
+-r--------   1 s336768  studs         32 сент. 13 10:41 buizel
+-------r--   1 s336768  studs         62 сент. 13 10:43 camerupt
+d--x------   2 s336768  studs          7 окт.  7 13:49 cherubi3
+-rwxrwxrwx   1 s336768  studs         87 окт.  7 10:45 cranidos
+-r--r-----   1 s336768  studs          0 сент. 13 10:14 emboar3
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 gloom
+-r-----r--   1 s336768  studs        188 окт.  7 13:48 Hello
+-rw--w----   1 s336768  studs        209 сент. 13 10:35 krookodile6
+drwx--xrwx   4 s336768  studs          7 окт.  7 08:42 lillipup7
+-rw-r--r--   1 s336768  studs         43 сент. 27 08:51 mounth
+drwxr-xr-x   2 s336768  studs          2 сент. 13 10:16 skiploom
+-rwx---rw-   1 s336768  studs         54 сент. 13 10:50 tyrogue8
+-rw-r--r--   1 s336768  studs        182 сент. 15 14:58 tyrogue8_52
+-r-----r--   1 s336768  studs        188 сент. 13 10:58 walrein
+s336768@helios:/home/s336768/lab0$ cp buizel cherubi3
+cp: cannot create cherubi3/buizel: Permission denied
+s336768@helios:/home/s336768/lab0$ mv buizel cherubi3
+mv: cannot rename buizel to cherubi3/buizel: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=wx cherubi3
+s336768@helios:/home/s336768/lab0$ cp buizel cherubi3
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+cherubi3: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u+r cherubi3
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+buizel    free      machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ mv cranidos cherubi3
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+buizel    cranidos  free      machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ chmod u=w cherubi3
+s336768@helios:/home/s336768/lab0$ mv cherubi3/cranidos lab0
+mv: cannot access cherubi3/cranidos
+s336768@helios:/home/s336768/lab0$ chmod u=x cherubi3
+s336768@helios:/home/s336768/lab0$ mv cherubi3/cranidos lab0
+mv: cannot rename cherubi3/cranidos to lab0: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=rwx cherubi3
+s336768@helios:/home/s336768/lab0$ mv cherubi3/cranidos lab0
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     gloom        krookodile6  lillipup7    skiploom     tyrogue8_52
+camerupt     emboar3      Hello        lab0         mounth       tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ mv lab0/cranidos
+mv: Insufficient arguments (1)
+Usage: mv [-f] [-i] f1 f2
+       mv [-f] [-i] f1 ... fn d1
+       mv [-f] [-i] d1 d2
+s336768@helios:/home/s336768/lab0$ mv lab0/cranidos ..
+mv: lab0/cranidos: Not a directory
+s336768@helios:/home/s336768/lab0$ mv lab0/cranidos ../lab0
+mv: lab0/cranidos: Not a directory
+s336768@helios:/home/s336768/lab0$ mv lab0/cranidos /home/s336768/lab0
+mv: lab0/cranidos: Not a directory
+s336768@helios:/home/s336768/lab0$ mv lab0/cranidos cherubi3
+mv: lab0/cranidos: Not a directory
+s336768@helios:/home/s336768/lab0$ cd lab0
+ksh: lab0: not a directory
+s336768@helios:/home/s336768/lab0$ cp lab0 crabidos
+s336768@helios:/home/s336768/lab0$ mw cherubi3/free ..
+ksh: mw:  not found
+s336768@helios:/home/s336768/lab0$ mv cherubi3/free ../lab0
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      gloom        krookodile6  lillipup7    skiploom     tyrogue8_52
+camerupt     crabidos     free         Hello        lab0         mounth       tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+buizel    machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ chmod u=x cherubi3
+s336768@helios:/home/s336768/lab0$ cp free cherubi3
+cp: cannot create cherubi3/free: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=wx cherubi3
+s336768@helios:/home/s336768/lab0$ cp free cherubi3
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+cherubi3: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod 700 cherubi3
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+buizel    free      machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ rm cherubi3/free
+rm: cherubi3/free: override protection 404 (да/нет)?
+s336768@helios:/home/s336768/lab0$ chmod 777 cherubi3/free
+s336768@helios:/home/s336768/lab0$ chmod cherubi3/free
+usage:  chmod [-fR] <absolute-mode> file ...
+        chmod [-fR] <ACL-operation> file ...
+        chmod [-fR] <symbolic-mode-list> file ...
+where   <symbolic-mode-list> is a comma-separated list of
+        [ugoa]{+|-|=}[rwxXlstugo]
+where   <ACL-operation> is one of the following
+        A-<acl_specification>
+        A[number]-
+        A[number]{+|=}<acl_specification>
+where   <acl-specification> is a comma-separated list of ACEs
+s336768@helios:/home/s336768/lab0$ rm cherubi3/fre
+cherubi3/fre: No such file or directory
+s336768@helios:/home/s336768/lab0$ rm cherubi3/free
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+buizel    machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      gloom        krookodile6  lillipup7    skiploom     tyrogue8_52
+camerupt     crabidos     free         Hello        lab0         mounth       tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ rm cherubi3/buizel
+rm: cherubi3/buizel: override protection 400 (да/нет)?
+s336768@helios:/home/s336768/lab0$ man rm
+Reformatting page.  Please Wait... done
+
+User Commands                                               rm(1)
+
+NAME
+     rm, rmdir - remove directory entries
+
+SYNOPSIS
+     /usr/bin/rm [-f] [-i] file...
+
+     /usr/bin/rm -rR [-f] [-i] dirname... [file...]
+
+     /usr/xpg4/bin/rm [-fiRr] file...
+
+     /usr/bin/rmdir [-ps] dirname...
+
+DESCRIPTION
+  /usr/bin/rm /usr/xpg4/bin/rm
+     The rm utility removes the directory entry specified by each
+     file  argument.  If  a  file has no write permission and the
+     standard input is a terminal, the full  set  of  permissions
+     (in  octal)  for the file are printed followed by a question
+     mark. This is a  prompt  for  confirmation.  If  the  answer
+     begins  with y (for yes), the file is deleted, otherwise the
+     file remains.
+
+     If file is a symbolic link, the link will  be  removed,  but
+     the  file  or  directory  to  which  it  refers  will not be
+     deleted. Users do not need write permission to remove a sym-
+     bolic  link,  provided  they  have  write permissions in the
+     directory.
+
+     If multiple files are specified and removal of a file  fails
+     for  any reason, rm will write a diagnostic message to stan-
+     dard error, do nothing more to the current file, and  go  on
+     to any remaining files.
+
+     If the standard input is not a terminal,  the  utility  will
+     operate as if the -f option is in effect.
+
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+buizel    machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ rm cherubi3/buizel
+rm: cherubi3/buizel: override protection 400 (да/нет)? y
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+buizel    machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ rm -f cherubi3/buizel
+s336768@helios:/home/s336768/lab0$ ls cherubi3
+machamp   pupitar   shuppet   simisage
+s336768@helios:/home/s336768/lab0$ chmod u=w cherubi3
+s336768@helios:/home/s336768/lab0$ mv buizel cherubi3
+mv: cannot rename buizel to cherubi3/buizel: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=x cherubi3
+s336768@helios:/home/s336768/lab0$ mv buizel cherubi3
+mv: cannot rename buizel to cherubi3/buizel: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=rwx cherubi3
+s336768@helios:/home/s336768/lab0$ mv buizel cherubi3
+s336768@helios:/home/s336768/lab0$ mv cherubi3/buizel ../lab0
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      gloom        krookodile6  lillipup7    skiploom     tyrogue8_52
+camerupt     crabidos     free         Hello        lab0         mounth       tyrogue8     walrein
+s336768@helios:/home/s336768/lab0$ chmod u= cherubi3
+s336768@helios:/home/s336768/lab0$ ln -s cherubi3 tol
+s336768@helios:/home/s336768/lab0$ ls
+buizel       cherubi3     emboar3      gloom        krookodile6  lillipup7    skiploom     tyrogue8     walrein
+camerupt     crabidos     free         Hello        lab0         mounth       tol          tyrogue8_52
+s336768@helios:/home/s336768/lab0$ rm free
+rm: free: override protection 404 (да/нет)?
+s336768@helios:/home/s336768/lab0$ rm -f free
+s336768@helios:/home/s336768/lab0$ rm -f Hello
+s336768@helios:/home/s336768/lab0$ rm -f lab0
+s336768@helios:/home/s336768/lab0$ rm -f mounth
+s336768@helios:/home/s336768/lab0$ rm -f tol
+s336768@helios:/home/s336768/lab0$ ls
+buizel       camerupt     cherubi3     crabidos     emboar3      gloom        krookodile6  lillipup7    skiploom     tyrogue8     tyrogue8_52  walrein
+s336768@helios:/home/s336768/lab0$ chmod u=rw cherubi3
+s336768@helios:/home/s336768/lab0$ touch cherubi3/tree
+touch: cannot stat cherubi3/tree: Permission denied
+s336768@helios:/home/s336768/lab0$ chmod u=rx cherubi3
+s336768@helios:/home/s336768/lab0$ cd cherubi3
+s336768@helios:/home/s336768/lab0/cherubi3$ touch tree
+touch: cannot create tree: Permission denied
+s336768@helios:/home/s336768/lab0/cherubi3$ cd ..
+s336768@helios:/home/s336768/lab0$ chmod u=

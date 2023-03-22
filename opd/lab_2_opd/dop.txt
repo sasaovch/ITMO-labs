@@ -1,0 +1,18 @@
+ORG 0x01
+FID2: WORD 1 ; РЕЗУЛЬТАТ 
+FID1: WORD 1
+N: WORD 3 ; НОМЕР ЧИСЛА
+START: 
+	LD $N
+	DEC
+	BEQ NO
+	DEC
+	BEQ NO
+	ST $N
+	LD $FID2
+	ADD $FID1
+	SWAM $FID2
+	ST $FID1
+	LOOP $N
+	JUMP 0x00A
+NO: HLT

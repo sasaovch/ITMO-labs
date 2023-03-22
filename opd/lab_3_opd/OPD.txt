@@ -1,0 +1,21 @@
+ORG 0x01
+DS: WORD 1024 ; ДЕЛИТЕЛЬ
+DD: WORD 19 ; ДЕЛИМОЕ
+IV: WORD 0 ; ПРОМЕЖУТОЧНОЕ ЗНАЧЕНИЕ
+WP: WORD 0 ; ЦЕЛАЯ ЧАСТЬ
+R: WORD 0 ; ОСТАТОК
+START: 
+	LD $DS
+	ST $IV
+	LD $IV
+	SUB $DD
+	BLT NO
+	ST $IV
+	LD $WP
+	INC
+	ST $WP
+	JUMP 0x008
+NO: 
+	ADD $DD
+	ST $R
+	HLT

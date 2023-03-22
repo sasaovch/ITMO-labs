@@ -1,0 +1,68 @@
+grammar calculator;
+
+equation
+   : expression EOF
+   ;
+
+expression
+   : multiplyingExpression PLUS expression
+   | multiplyingExpression MINUS expression
+   | multiplyingExpression
+   ;
+
+multiplyingExpression
+   : atom TIMES multiplyingExpression
+   | atom DIV multiplyingExpression
+   | atom
+   ;
+
+atom
+   : SCIENTIFIC_NUMBER
+   | LPAREN expression RPAREN
+   ;
+
+LPAREN
+   : '('
+   ;
+
+
+RPAREN
+   : ')'
+   ;
+
+
+PLUS
+   : '+'
+   ;
+
+
+MINUS
+   : '-'
+   ;
+
+
+TIMES
+   : '*'
+   ;
+
+
+DIV
+   : '/'
+   ;
+
+
+SCIENTIFIC_NUMBER
+   : NUMBER
+   ;
+
+
+fragment NUMBER
+   : ('0' .. '9') + ('.' ('0' .. '9') +)?
+   ;
+
+
+
+WS
+   : [ \r\n\t] + -> skip
+   ;
+     
