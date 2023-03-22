@@ -1,0 +1,5 @@
+/.vscode
+/.apt*
+/target/*
+package-lock.json
+persistence.xml

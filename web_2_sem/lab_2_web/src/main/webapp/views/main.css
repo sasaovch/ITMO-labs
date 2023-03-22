@@ -1,0 +1,189 @@
+body {
+    --font-color:#333;
+    --bg-color: #fff;
+    --main-color: rgba(0,234,255,1);
+    --sub-color: rgba(7,217,242,1);
+    --last-color: rgba(0,255,209,1);
+    --first-shadow: #919191;
+    --second-shadow: rgba(16,16,16,0.4);
+    --third-shadow: rgba(16,16,16,0.2);
+    --border-color: royalblue;
+    --button-first-color: rgba(0,234,255,1);
+    --button-second-color:rgba(7,217,242,1);
+    --button-third-color: rgba(0,255,209,1);
+    --form-color:#fff;
+}
+body.dark-theme {
+    --font-color:#fff;
+    --bg-color: #161625;
+    --main-color: #020024;
+    --sub-color: #090979;
+    --last-color: #299eb6;
+    --first-shadow: #b8b8b8;
+    --second-shadow: rgba(197, 197, 197, 0.4);
+    --third-shadow: rgba(255, 255, 255, 0.2);
+    --border-color: #a29eff;
+    --button-first-color: rgb(2, 168, 184);
+    --button-second-color:rgb(2, 83, 175);
+    --button-third-color: rgb(28, 6, 223);
+    --form-color: rgb(123, 122, 131);
+}
+body {
+    overflow: auto;
+    margin: 0px;
+    padding: 0px;
+    font-family: monospace;
+    width: 100%;
+    background-color: var(--bg-color);
+    color: var(--font-color);
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    /* не наследуется */
+}
+button {
+    background: var(--button-first-color); 
+    border-radius: 14px;
+}
+button:hover {
+    background: var(--button-second-color); 
+}
+th {
+    border-right: solid 1px var(--border-color); 
+    border-left: solid 1px var(--border-color);
+    border-top: solid 1px var(--border-color);
+    border-bottom:  solid 1px var(--border-color);
+} 
+button {
+    padding:1%;
+}
+p {
+    margin: 0;
+    padding:1%;
+}
+p:onclick
+input:valid {
+    /* outline: 1px solid var(--button-first-color); */
+    accent-color: var(--main-color);
+    /* border-radius: 5px;
+    border: none; */
+}
+input:invalid {
+    outline : 1px solid red;
+    accent-color: var(--main-color);
+    /* border-radius: 5px; */
+    /* border: none; */
+}
+input:checked + .slider {
+    background-color: var(--last-color);
+}
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+.gradient {
+    background: linear-gradient(90deg, var(--main-color) 0%, var(--sub-color) 48%, var(--last-color) 100%);
+}
+.select-table {
+    text-align: left;
+    padding: 1%;
+    font-size: 14px;
+    font-weight: blod;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--second-shadow);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--bg-color);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+#header {
+    height: 10%;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-align: center;
+    transition: 0.3s;
+}
+#header:hover {
+    text-shadow: 1px 1px 1px var(--first-shadow),
+    1px 2px 1px var(--first-shadow),
+        1px 3px 1px var(--first-shadow),
+        1px 4px 1px var(--first-shadow),
+        1px 18px 6px var(--second-shadow),
+        1px 22px 10px var(--third-shadow),
+    1px 25px 35px var(--third-shadow),
+    1px 30px 60px var(--second-shadow);
+    opacity: 1;
+    transition: 0.3s;
+}
+#menu {
+    text-align: center;
+    vertical-align: top;
+    width: 9%;
+    padding:1%;
+    background: linear-gradient(180deg, var(--main-color) 0%, var(--bg-color) 30%);
+}
+#group {
+    background: var(--main-color); 
+    padding:1%;
+    width: 9%;
+}
+#name {
+    background: linear-gradient(90deg, var(--main-color) 0%, var(--sub-color) 48%, var(--last-color) 100%);
+    width: 90%;
+}
+#graph-style {
+    padding: 1%;
+    text-align: center;
+    background: linear-gradient(180deg, var(--main-color) 0%, var(--bg-color) 30%);
+}
+#warning {
+    color: red;
+}
+#results {
+    padding:1%;
+    border-collapse: unset ;
+    text-align: center;
+    font-size: 16px;
+}
+#results td {
+    border-right: solid 1px var(--border-color); 
+    border-left: solid 1px var(--border-color);
+    border-top: solid 1px var(--border-color);
+    border-bottom:  solid 1px var(--border-color);
+
+}

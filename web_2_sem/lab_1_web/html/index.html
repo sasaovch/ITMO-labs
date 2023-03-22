@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="desctiption" content="ITMO 3 sem laboratory work Web 1">
+        <meta name="keywords" content="ITMO, lab, web">
+        <meta name="author" content="yt">
+        <link rel="stylesheet" href="./css/main.css">
+        <title>Lab 1 Web</title>
+    </head>
+    <body>
+        <div id="header">
+            <h1>Ovcharenko Aleksandr</h1>
+            <h2>P3132<br><br>
+            laboratory Work Web 1 - 3212
+            </h2>
+        </div>
+        <div id="graphArea">
+            <canvas id="graph" width="800" height="400"></canvas>
+        </div>
+        <div class="panel" id="form-panel">
+            <form id="form" action="" method="get">    
+                <div class="row">
+                    <label>select X</label>
+                    <div>
+                        <div>
+                            <div class="row">
+                                <input type="radio" name="x" id="x-1" value="-2">
+                                <label for="x-1">-2</label>
+                            </div>
+                            <div class="row">
+                                <input type="radio" name="x" id="x-2" value="-1.5">
+                                <label for="x-2">-1.5</label>
+                            </div>
+                            <div class="row">
+                                <input type="radio" name="x" id="x-3" value="-1">
+                                <label for="x-3">-1</label>
+                            </div>
+                            <div class="row">
+                                <input type="radio" name="x" id="x-4" value="-0.5">
+                                <label for="x-4">-0.5</label>
+                            </div>
+                            <div class="row">
+                                <input type="radio" name="x" id="x-5" value="0">
+                                <label for="x-5">0</label>
+                            </div>
+                            <div class="row">
+                                <input type="radio" name="x" id="x-6" value="0.5">
+                                <label for="x-6">0.5</label>
+                            </div>
+                            <div class="row">
+                                <input type="radio" name="x" id="x-7" value="1">
+                                <label for="x-7">1</label>
+                            </div>
+                            <div class="row">
+                                <input type="radio" name="x" id="x-8" value="1.5">
+                                <label for="x-8">1.5</label>
+                            </div>
+                            <div class="row">
+                                <input type="radio" name="x" id="x-9" value="2">
+                                <label for="x-8">2</label>
+                            </div>
+                        </div>
+                        <!-- <p id="input-x-warning" class="warning hidden" style="margin-top:5px"></p> -->
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <label for="select-y">Y</label>
+                    <select name="y" id="select-y">
+                        <option value="-2">-2</option>
+                        <option value="-1.5">-1.5</option>
+                        <option value="-1">-1</option>
+                        <option value="-0.5">-0.5</option>
+                        <option value="0">0</option>
+                        <option value="0.5">0.5</option>
+                        <option value="1">1</option>
+                        <option value="1.5">1.5</option>
+                        <option value="2">2</option>
+                        <option id="x-from-graph-click" value="" disabled></option>
+                    </select>
+                </div> -->
+                <div class="row">
+                    <label for="input-y">Y from -3 to 5</label>
+                    <div>
+                        <input type="text" name="y" id="input-y" placeholder="0" required>
+                        <!-- <p id="input-y-warning" class="warning hidden" style="margin-top:5px"></p> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <label>Choose R</label>
+                    <div>
+                        <input type="checkbox" id="r-1" name="r" value="1">
+                        <label for="r-1">1</label><br>
+                        <input type="checkbox" id="r-2" name="r" value="2">
+                        <label for="r-2">2</label><br>
+                        <input type="checkbox" id="r-3" name="r" value="3">
+                        <label for="r-3">3</label><br>
+                        <input type="checkbox" id="r-4" name="r" value="4">
+                        <label for="r-4">4</label><br>
+                        <input type="checkbox" id="r-5" name="r" value="5">
+                        <label for="r-5">5</label><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <button id="form-submit" type="submit" class="row-fill">Send</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="result">
+            <h1>Result</h1>
+            <div>
+                <table>
+                    <tr>
+                        <th>Attempt #</th>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>R</th>
+                        <th>Result</th>
+                        <th>Attempt time</th>
+                        <th>Processing time</th>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <!-- <div class="main">
+            <canvas id="graph" width="320" height="240" style="border:1px solid #4920ff;"></canvas>
+            <canvas id="myCanvas" width="200" height="100" style="border:1px solid #4920ff;"></canvas>
+        </div>
+        <script>
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#FF0000";
+            ctx.fillRect(0, 0, 200, 75);
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+            ctx.moveTo(0, 0);
+            ctx.lineTo(200, 100);
+            ctx.stroke();
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+            ctx.beginPath();
+            ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+            ctx.stroke();
+        </script> -->
+        <!-- <div style="height: 690px; width:1000px; background:black;">
+            <div style="height: 100px; margin-top:175px; width:100px; background:red;" /><br/>
+            <div style="height: 100px; margin-top:175px; width:300px; background:green;" /><br/>
+            <div style="height: 100px; margin-top:175px; width:703px; background:yellow;" /><br/>
+            <div style="height: 100px; margin-top:175px; width:968px; background:blue;" /><br/>
+          </div> -->
+        <script src="./js/main.js"></script>
+    </body>
+</html>
