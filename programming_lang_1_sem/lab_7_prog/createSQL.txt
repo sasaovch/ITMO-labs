@@ -1,0 +1,45 @@
+CREATE TABLE SpaceMarine (
+id SERIAL PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+creating_date_time timestamp NOT NULL,
+coordinates bigint NOT NULL,
+health INT CHECK(health>0),
+heart_count INT CHECK(heart_count > 0),
+loyal BOOLEAN,
+astartes_category astartes_category NOT NULL,
+chapter bigint,
+owner_name varchar(100) not null,
+CHECK(heart_count <= 3),
+FOREIGN KEY(coordinates) REFERENCES coordinates(id),
+FOREIGN KEY(chapter) REFERENCES chapter(id),
+FOREIGN KEY(owner_name) REFERENCES users(login));
+
+CREATE TYPE astartes_category AS ENUM (
+'aggressor',
+'inceptor',
+'tactical',
+'chaplain',
+'helix');
+
+CREATE TABLE Coordinates (
+id SERIAL PRIMARY KEY,
+x double precision,
+y bigint);
+
+CREATE TABLE Chapter (
+id SERIAL PRIMARY KEY,
+name varchar(50),
+parent_Legion varchar(50),
+marines_count bigint NOT NULL CHECK(marines_Count > 0),
+world varchar(50),
+CHECK(marines_count <=1000));
+
+CREATE TABLE users (
+login varchar(100) PRIMARY KEY,
+password varchar(100),
+salt varchar(100));
+
+
+('aleks','12','12.01.20','2','2','true','helix','nsd');
+insert into spacemarine (name, coordinates, creatindatetime, health, heartcount, loyal, astartescategory, chapter)
+values ('aleks','12','12.01.20','2','2','true','HELIX','nsd');

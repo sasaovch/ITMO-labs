@@ -1,0 +1,7 @@
+scp -P 2222 local_file_Path s336768@helios.se.ifmo.ru:/home/s336768/...
+javac -cp lib\Pokemon.jar -d bin src\src\Main.java src\src\pokemon\*.java src\src\attact\*
+jar -cfm Pok.jar manifest.txt -C bin src
+java -jar Pok.jar
+
+Class-Path: lib/Pokemon.jar
+Main-Class: src.Main

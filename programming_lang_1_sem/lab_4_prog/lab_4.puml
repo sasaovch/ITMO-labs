@@ -1,0 +1,201 @@
+@startuml lab_4
+
+package kids {
+    class Korotishi
+    enum Gender
+}
+
+package object {
+    ThisObject <|-- Book
+    ThisObject <|-- Window
+    StoryOfBook --+ Book
+    class Eyes
+    enum StatusOpenClose
+}
+
+package exception {
+    AlienEyesException <|-- RuntimeException
+    EyesCloseException <|-- RuntimeException
+    WindowCloseException <|-- Exception
+}
+
+package actions{
+    JumpInWindow --o Korotishi
+    JumpInWindow --o Window
+    interface CheckInterface
+    CarryAction --o Korotishi
+    PutAction --o Korotishi
+    ReadBookAction --o Korotishi
+    ReadBookAction --o Book
+    ThinkAction --o Korotishi
+    GoOnTrip --+ SuggestionTransportForTrip
+    GoOnTrip --o Korotishi
+    OpenCloseWindowAction --o Korotishi
+    OpenCloseWindowAction --o Window
+    SeeAction --o Korotishi
+    SeeAction --o Eyes
+    TellStoryAction --o Korotishi
+    TellStoryAction --o StoryOfBook
+}
+
+class Korotishi {
+    -name: String
+    -gender: Gender
+    +malishi: Korotishi
+    +malishki: Korotishi
+    +String getGender()
+    +int hashCode()
+    +String toString()
+    +boolean equals()
+    +{static} Korotishi createMalish()
+    +{static} Korotishi createMalishka()
+}
+
+enum Gender {
+    Malishi
+    Malishki
+    -gender: String
+    +String getGender()
+}
+
+class ThisObject {
+    -object: String
+    +boolean equals()
+    +String toString()
+}
+
+class Book{
+    -{final} nameOfBook: String
+    -{final} themeOfBook: String
+    +String getNameOfBook()
+    +String getThemeOfBook()
+    +void printbook()
+}
+
+class StoryOfBook{
+    -topic: String
+    +String getTopic()
+}
+
+interface CheckInterface {
+    +boolean check()
+}
+
+class Window{
+    -status: StatusOpenClose
+    -place: String
+    +String getStatus()
+    +String getPlace()
+    +void setSatus(StatusOpenClose status)
+}
+
+class Eyes{
+    -who: Korotishi
+    -status: StatusOpenClose
+    +Korotishi getKorotishi()
+    +String getStatus()
+}
+
+enum StatusOpenClose {
+    Open
+    Close
+    -status: String
+    +String getStatus()
+}
+
+class CarryAction {
+    -name: String
+    -who: Korotishi
+    -whom: Korotishi
+    -place: String
+    +Korotishi getWho()
+    +Korotishi getWhom()
+    +void print()
+}
+
+class JumpInWindow{
+    -who: Korotishi
+    -window: Window
+    +void jumpInWindow()
+}
+
+interface CheckInterface{
+    +boolean check(ThisObject object)
+}
+
+class GoOnTrip{
+    -who: Korotishi[]
+    -place: String
+    +void goOnTrip()
+}
+
+class SuggestionTransportForTrip{
+    -name: String
+    +void suggestionTransport(Kotorishi who)
+    +String getName()
+}
+
+class OpenCloseWindowAction{
+    -who: Korotishi
+    -window: Window
+    +void openWindow(StatusOpenClose)
+    +void closeWindow(StatusOpenClose)
+}
+
+class PutAction {
+    -whom: Korotishi
+    -who: Korotishi[]
+    -place: String
+    +void print()
+}
+
+class ReadBookAction {
+    -who: Korotishi
+    -book: Book
+    +void printReadAction()
+    +void changeBook(Book book)
+}
+
+class Book{
+   -nameOfBook: String
+   -themeOfBook: String
+   -arrayNameOfBook: List<String>
+   -countOfAllBook: int
+   +String getNameOfBook()
+   +String getThemeOfBook()
+   +void printBook()
+   +{static} int getcountOfAllBook()
+   +{static} void printNameOfAllBook()
+}
+
+class SeeAction{
+    -who: Korotishi
+    -eyes: Eyes
+    +void printSeeAction()
+}
+
+class ObjectOfInspection{
+    #object: Object
+    +Object getObjectOfInspection()
+}
+
+class TellStoryAction{
+    -whom: Korotishi
+    -who: Korotishi[]
+    -stories: StoryOfBook[]
+    +void tellStories()
+}
+
+class ThinkAction {
+    -name: String
+    -subject: Korotishi
+    -num_day: int
+    -num_night: int
+    -result: String
+    +Korotishi getWho()
+    +void printDays()
+    +String getResult()
+    +void print()
+}
+
+@enduml

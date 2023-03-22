@@ -1,0 +1,138 @@
+@startuml lab_3
+
+package kids {
+    class Korotishi
+    enum Gender
+}
+
+package subject {
+    ThisObject <|-- Juice
+}
+
+package actions{
+    CollectAction --o ThisObject
+    CollectAction --o Korotishi
+    GivecmdAction --o Korotishi
+    GoAction --o Korotishi
+    MeetAction --o Korotishi
+    PlayAction --o Korotishi
+    ThinkAction --o Korotishi
+    GetThisObjectAction <|-- GerJuiceAction
+    DescribeCollectAction <|-- ProcessCollectJuice
+}
+
+class Korotishi {
+    -name: String
+    -gender: Gender
+    +malishi: Korotishi
+    +malishki: Korotishi
+    +String getGender()
+    +int hashCode()
+    +String toString()
+    +boolean equals()
+    +{static} Korotishi createMalish()
+    +{static} Korotishi createMalishka()
+}
+
+enum Gender {
+    Malishi
+    Malishki
+    -gender: String
+    +String getGender()
+}
+
+class ThisObject {
+    -object: String
+    +boolean equals()
+    +String toString()
+}
+
+class Juice {
+    -flower: String
+    +String getFlower()
+    +boolean equals()
+}
+
+
+class CollectAction {
+    #name: String
+    #object: ThisObject 
+    #reason: String
+    #container: String
+    #people: Korotishi[]
+    +void printResult()
+    +ThisObject getObject()
+    +String getReason()
+    +String getContainer()
+    +void printPeople()
+}
+
+interface GetThisObjectAction {
+    +void getObjectAction()
+}
+
+class GerJuiceAction {
+    +void getObjectAction()
+}
+
+class GivecmdAction {
+    #name: String
+    #who: Korotishi
+    #whom: Korotishi
+    #what_do: String
+    +Korotishi getWho()
+    +Korotishi getWhom()
+    +String getWhatdo()
+    +void print()
+}
+
+class GoAction {
+    #name: String
+    #who: Korotishi
+    #reason: String
+    +Korotishi getWho()
+    +String getReason()
+    +void print()
+}
+
+class MeetAction {
+    #name: String
+    #who: Korotishi
+    #whom: Korotishi
+    +Korotishi getWho()
+    +Korotishi getWhom()
+    +void print()
+}
+
+class PlayAction {
+    #name: String
+    #who: Korotishi
+    #whom: Korotishi
+    #game: String
+    +Korotishi getWho()
+    +Korotishi getWhom()
+    +String getGame()
+    +void print()
+}
+
+interface DescribeCollectAction {
+    +void describeProcess()
+}
+
+class ProcessCollectJuice {
+    +void describeProcess()
+}
+
+class ThinkAction {
+    #name: String
+    #subject: Korotishi
+    #num_day: int
+    #num_night: int
+    #result: String
+    +Korotishi getWho()
+    +void printDays()
+    +String getResult()
+    +void print()
+}
+
+@enduml
